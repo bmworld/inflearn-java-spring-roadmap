@@ -1,8 +1,14 @@
 package hellospring.controller;
 
+import hellospring.domain.Member;
 import hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 public class MemberController {
@@ -18,8 +24,6 @@ public class MemberController {
   // @Autowired Anotation 사용 =>  Spring이 memberService객체를 Controller 생성자 호출하는 시점에 Controller와 연결시켜준다.
 
 
-
-
   //////////////////////////////////////////////////////
   // # D.I (Dependency Injection : 생성자를 통한 의존성 주입) Ver.
   // => 생성자를 통해서, MemberService가 MemberController에 주입이 됨.
@@ -29,8 +33,9 @@ public class MemberController {
 
   @Autowired
 
-  public MemberController (MemberService memberService){
+  public MemberController(MemberService memberService) {
     this.memberService = memberService;
+
   }
   //////////////////////////////////////////////////////
 
@@ -54,4 +59,29 @@ public class MemberController {
 //  }
   //////////////////////////////////////////////////////
 
+  @GetMapping("/members/new")
+  public String createForm() {
+    return "/members/createMemberForm"; // 별다른거 안하고, createMemberForm.html을 반환하는 역할만 한다.
+  }
+
+  @PostMapping("/members/new")
+  public String create(MemberForm form) {
+    Member member = new Member();
+    String name = form.getName();
+    member.setName(name);
+
+    System.out.println("new member = " + member.getName());
+
+    memberService.join(member);
+    return "redirect:/"; // 회원가입이 끝나면, 루트 페이지로 보낸다.
+  }
+
+  @GetMapping("/members")
+  public String list(Model model){
+
+    List<Member> members = memberService.findMembers();
+    System.out.println("all members = " + members);
+    model.addAttribute("members", members);
+    return "/members/memberList";
+  }
 }
