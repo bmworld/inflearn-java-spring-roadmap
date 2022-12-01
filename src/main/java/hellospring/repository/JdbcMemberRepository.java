@@ -180,7 +180,7 @@ public class JdbcMemberRepository implements MemberRepository{
   private void close (Connection conn, PreparedStatement pstmt, ResultSet rs){
     try {
       if (conn != null) {
-        conn.close();
+        closeDB(conn);
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -205,7 +205,7 @@ public class JdbcMemberRepository implements MemberRepository{
     }
   }
 
-  private void close (Connection conn) throws SQLException {
+  private void closeDB (Connection conn) throws SQLException {
     DataSourceUtils.releaseConnection(conn, dataSource);
   }
 
