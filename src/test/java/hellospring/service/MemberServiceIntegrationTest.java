@@ -37,10 +37,10 @@ class MemberServiceIntegrationTest {
 
 
   @Test
-  void 회원가입() {
+  void signUp() {
     // given
     Member member = new Member();
-    member.setName("IU"); // ! 보틍 TEST 전용 DB를 구축한다.
+    member.setName("JdbcTemplateUser"); // ! 보틍 TEST 전용 DB를 구축한다.
 
     // when
     Long saveId = memberService.join(member);
