@@ -42,9 +42,19 @@ public class MemberService {
   // !  JPA는 모든 데이터변경이 실행될 때, Transactional 내부에서 실행되어야 한다.
   @Transactional
   public Long join(Member member) {
-    validateDuplicateMember(member); // condition : 동명이인 회원가입 불가.
-    memberRepository.save(member);
-    return member.getId();
+    long start = System.currentTimeMillis();
+    try {
+      validateDuplicateMember(member); // condition : 동명이인 회원가입 불가.
+      memberRepository.save(member);
+      return member.getId();
+    } finally {
+      long finish = System.currentTimeMillis();
+      long timeMs = finish - start;
+      System.out.println("메서드 시간측정 > join = " + timeMs + "ms");
+    }
+
+
+
   }
 
   private void validateDuplicateMember(Member member) {
@@ -54,7 +64,14 @@ public class MemberService {
   }
 
   public List<Member> findMembers(){
-    return memberRepository.findAll();
+    long start = System.currentTimeMillis();
+    try {
+      return memberRepository.findAll();
+    } finally {
+      long finish = System.currentTimeMillis();
+      long timeMs = finish - start;
+      System.out.println("메서드 시간측정 > findMembers = " + timeMs + "ms");
+    }
   }
 
   public Optional<Member> findOne(Long memberId){

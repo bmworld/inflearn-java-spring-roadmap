@@ -1,6 +1,7 @@
 package hellospring;
+// * SpringConfig 파일 ->Spring Bean에 등록하는 파일이다.
 
-
+import hellospring.aop.TimeTraceAop;
 import hellospring.repository.*;
 import hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,4 +79,9 @@ public class SpringConfig {
 //  }
   ///////////////////////////////////////////////////////////////////////
 
+
+//  @Bean // ! SpringBean에 직접 등록하는 방법  //=> 이거 대신, 해당 class 에  @Component Anotation붙이는 것으로도 가능함.
+  public TimeTraceAop timeTraceAop () {
+    return new TimeTraceAop();
+  }
 }

@@ -44,7 +44,7 @@ class MemberServiceIntegrationTest {
   void signUp() {
     // given
     Member member = new Member();
-    member.setName("SpringDataJPA_USER_2"); // - 보틍 TEST 전용 DB를 구축한다.
+    member.setName("AOP_test_user"); // - 보틍 TEST 전용 DB를 구축한다.
 
     // when
     Long saveId = memberService.join(member);
