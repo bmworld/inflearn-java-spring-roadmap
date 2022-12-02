@@ -15,7 +15,7 @@ public class SpringConfig {
 
 
   ///////////////////////////////////////////////////////////////////////
-  //////////////////// * MemoryRepository => JdbcRepository 로 변경을 위해 필요
+  ///////// * MemoryRepository => JdbcRepository 로 변경을 위해 필요 ///////////
 //  private final DataSource dataSource; // DataSource => Spring이 제공해준다!
 //
 //  @Autowired
