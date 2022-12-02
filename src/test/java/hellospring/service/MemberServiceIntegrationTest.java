@@ -5,6 +5,7 @@ import hellospring.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,14 +21,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 3. then
   : 기대하는 결과
 * */
-@SpringBootTest
+
 ////////////////////////////////////////////////////////////
-@Transactional
 /*
- ! DB에 transection후 테스트가 끝난 뒤, Rollback시킨다 ===> 따라서, 실제 DB 에 값이 Commit되지 않도록 한다.
+ ! @Transactional
+ ! DB에 transaction 후 테스트가 끝난 뒤, Rollback ===> 따라서, 실제 DB 에 값이 Commit되지 않도록 한다.
  ! DB는 transaction 후, Commit까지 거쳐야, 실제 데이터가 저장되는 방식으로 작동한다
  */
 ////////////////////////////////////////////////////////////
+@SpringBootTest
+@Transactional
 class MemberServiceIntegrationTest {
 
   @Autowired
@@ -37,10 +40,11 @@ class MemberServiceIntegrationTest {
 
 
   @Test
+//  @Commit // ! @Commit 어노테이션=> DB에 실제 Commit (레알 저장됨)
   void signUp() {
     // given
     Member member = new Member();
-    member.setName("JdbcTemplateUser"); // ! 보틍 TEST 전용 DB를 구축한다.
+    member.setName("SpringDataJPA_USER_2"); // - 보틍 TEST 전용 DB를 구축한다.
 
     // when
     Long saveId = memberService.join(member);
