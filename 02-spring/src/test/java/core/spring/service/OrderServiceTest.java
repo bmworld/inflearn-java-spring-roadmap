@@ -1,6 +1,6 @@
 package core.spring.service;
 
-import core.spring.AppConfig;
+import core.spring.config.AppConfig;
 import core.spring.domain.Grade;
 import core.spring.domain.Member;
 import core.spring.domain.Order;

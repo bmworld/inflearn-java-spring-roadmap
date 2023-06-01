@@ -1,4 +1,4 @@
-package core.spring;
+package core.spring.PURE_JAVA;
 
 import core.spring.repository.MemoryMemberRepository;
 import core.spring.service.MemberService;
@@ -7,6 +7,8 @@ import core.spring.service.OrderService;
 import core.spring.service.OrderServiceImpl;
 import core.spring.service.discount.DiscountPolicy;
 import core.spring.service.discount.FixDiscountPolicy;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 
 /**
@@ -18,7 +20,8 @@ import core.spring.service.discount.FixDiscountPolicy;
  * @설명
  * appConfig 객체는 MemoryRepository 객체를 샛엉하고, 그 참조값을 memberServiceImpl 생성 시, 생성자로 전달한다.
  */
-public class AppConfig {
+public class AppConfigByPureJava {
+
   public MemberService memberService () {
     return new MemberServiceImpl(memberRepository()); // 생성자 주입 (DI)
   }
@@ -29,11 +32,11 @@ public class AppConfig {
 
   }
 
-  private DiscountPolicy discountPolicy() {
+  public DiscountPolicy discountPolicy() {
     return new FixDiscountPolicy();
   }
 
-  private MemoryMemberRepository memberRepository() {
+  public MemoryMemberRepository memberRepository() {
     return new MemoryMemberRepository();
   }
 }
