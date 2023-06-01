@@ -5,6 +5,7 @@ import core.spring.service.MemberService;
 import core.spring.service.MemberServiceImpl;
 import core.spring.service.OrderService;
 import core.spring.service.OrderServiceImpl;
+import core.spring.service.discount.DiscountPolicy;
 import core.spring.service.discount.FixDiscountPolicy;
 
 
@@ -19,12 +20,20 @@ import core.spring.service.discount.FixDiscountPolicy;
  */
 public class AppConfig {
   public MemberService memberService () {
-    return new MemberServiceImpl(new MemoryMemberRepository()); // 생성자 주입 (DI)
+    return new MemberServiceImpl(memberRepository()); // 생성자 주입 (DI)
   }
 
   public OrderService orderService() {
 
-    return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
+    return new OrderServiceImpl(memberRepository(), discountPolicy());
 
+  }
+
+  private DiscountPolicy discountPolicy() {
+    return new FixDiscountPolicy();
+  }
+
+  private MemoryMemberRepository memberRepository() {
+    return new MemoryMemberRepository();
   }
 }
