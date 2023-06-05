@@ -1,4 +1,4 @@
-package core.spring;
+package core.spring.xml;
 
 import core.spring.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
@@ -8,7 +8,7 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class XmlAppContext {
+public class XmlAppContextTest {
 
   /**
    * xml 파일은 resource 경로 내에 만드시라.
