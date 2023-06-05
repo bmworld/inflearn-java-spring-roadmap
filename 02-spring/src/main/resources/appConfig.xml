@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+  <!--
+  ################################################################
+  AppConfig.java 코드랑 비교해보면, 표현방식만 다를 뿐,
+  똑같다!!
+  ################################################################
+  -->
+
+
+
+
+
+  <!--
+  ################################################################
+  @Bean
+  public MemoryMemberRepository memberRepository() {
+    return new MemoryMemberRepository();
+  }
+  ################################################################
+  -->
+  <bean id="memberRepository" class="core.spring.repository.MemoryMemberRepository"/>
+
+
+
+
+
+  <!--
+  ################################################################
+  @Bean
+  public MemberService memberService () {
+    return new MemberServiceImpl(memberRepository()); // 생성자 주입 (DI)
+  }
+  ################################################################
+  // 내부 필드는 생성자 등록에서 사용된 것을 xml 방식으로 재현한 것이다.
+  public MemberServiceImpl(MemoryMemberRepository memberRepo) {
+    this.memberRepository = memberRepo;
+  }
+  ################################################################
+  -->
+  <bean id="memberService" class="core.spring.service.MemberServiceImpl">
+    <constructor-arg name="memberRepo" ref="memberRepository"/>
+  </bean>
+
+
+  <bean id="discountPolicy" class="core.spring.service.discount.RateDiscountPolicy"/>
+
+
+  <bean id="orderService" class="core.spring.service.OrderServiceImpl">
+    <constructor-arg name="memberRepository" ref="memberRepository"/>
+    <constructor-arg name="discountPolicy" ref="discountPolicy"/>
+  </bean>
+</beans>

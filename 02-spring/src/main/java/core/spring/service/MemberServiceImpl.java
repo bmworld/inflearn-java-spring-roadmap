@@ -8,8 +8,8 @@ public class MemberServiceImpl implements MemberService{
 
   private final MemberRepository memberRepository;
 
-  public MemberServiceImpl(MemoryMemberRepository memoryMemberRepository) {
-    this.memberRepository = memoryMemberRepository;
+  public MemberServiceImpl(MemoryMemberRepository memberRepo) {
+    this.memberRepository = memberRepo;
   }
 
 
