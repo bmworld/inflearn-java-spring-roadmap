@@ -3,9 +3,7 @@ package core.spring.service;
 import core.spring.domain.Member;
 import core.spring.domain.Order;
 import core.spring.repository.MemberRepository;
-import core.spring.repository.MemoryMemberRepository;
 import core.spring.service.discount.DiscountPolicy;
-import core.spring.service.discount.RateDiscountPolicy;
 
 public class OrderServiceImpl implements OrderService{
 
@@ -16,7 +14,6 @@ public class OrderServiceImpl implements OrderService{
     this.memberRepository = memberRepository;
     this.discountPolicy = discountPolicy;
   }
-//  private DiscountPolicy discountPolicy;
 
   @Override
   public Order createOrder(Long memberId, String itemName, int itemPrice) {
@@ -24,5 +21,10 @@ public class OrderServiceImpl implements OrderService{
     int discountPrice = discountPolicy.discount(member, itemPrice);
 
     return new Order(memberId, itemName, itemPrice, discountPrice);
+  }
+
+  // TEST 용
+  public MemberRepository getMemberRepository() {
+    return memberRepository;
   }
 }

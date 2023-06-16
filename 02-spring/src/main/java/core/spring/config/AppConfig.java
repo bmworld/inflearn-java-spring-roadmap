@@ -33,20 +33,49 @@ public class AppConfig {
     return new RateDiscountPolicy();
   }
 
+
+
+
+
+  // Bean 호출 Flow (** 호출 순서는 아래처럼 보장되지 않을 수 있다.)
+
+  // ** 실행 순서 ( 전제: 스프링이 어떻게 작동할지 모르는 상태)
+  // call AppConfig.memberService => 이후 => call AppConfig.memberRepository
+  // call AppConfig.orderService => 이후 => call AppConfig.memberRepository
+  // call AppConfig.memberRepository
+
+  // => memberRepository `3 번` 호출 (예상)
+
+
+  // BUT
+  // ** 실제 실행 ( 전제: 스프링이 어떻게 작동할지 모르는 상태)
+  // call AppConfig.memberService
+  // call AppConfig.memberRepository
+  // call AppConfig.orderService
+
+  // => memberRepository `1 번` 호출
+  // =>  Spring Container에 의해서 Singleton 보장된다.
+
+
+
+
+
   @Bean  // Spring Container 의 관리대상이 된다.
   public MemberService memberService () {
+    System.out.println("call AppConfig.memberService");
     return new MemberServiceImpl(memberRepository()); // 생성자 주입 (DI)
   }
 
   @Bean
   public OrderService orderService() {
-
+    System.out.println("call AppConfig.orderService");
     return new OrderServiceImpl(memberRepository(), discountPolicy());
 
   }
 
   @Bean
   public MemoryMemberRepository memberRepository() {
+    System.out.println("call AppConfig.memberRepository");
     return new MemoryMemberRepository();
   }
 }
