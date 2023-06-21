@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
  * @설명
  * appConfig 객체는 MemoryRepository 객체를 샛엉하고, 그 참조값을 memberServiceImpl 생성 시, 생성자로 전달한다.
  */
-@Configuration // 애플리케이션 구성정보 담당
+//@Configuration // 애플리케이션 구성정보 담당
 public class AppConfig {
 
   @Bean(name = "renamed_discountPolicy") // Spring Container 에 등록할 이름 지정가능 / But, 왠만하면 그냥 쓰시라.

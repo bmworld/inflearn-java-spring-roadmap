@@ -1,12 +1,18 @@
 package core.spring.singletone;
 
-import core.spring.config.AppConfig;
 import core.spring.repository.MemberRepository;
+import core.spring.repository.MemoryMemberRepository;
+import core.spring.service.MemberService;
 import core.spring.service.MemberServiceImpl;
+import core.spring.service.OrderService;
 import core.spring.service.OrderServiceImpl;
+import core.spring.service.discount.DiscountPolicy;
+import core.spring.service.discount.RateDiscountPolicy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -55,5 +61,34 @@ public class ConfigurationSingtonTest {
         // CGLIB를 보시라.
         System.out.println("bean.getClass() = " + bean.getClass()); // => class core.spring.config.AppConfig$$EnhancerBySpringCGLIB$$aafd389d
 
+    }
+
+
+    @Configuration
+    public static class AppConfig {
+
+        @Bean(name = "renamed_discountPolicy") // Spring Container 에 등록할 이름 지정가능 / But, 왠만하면 그냥 쓰시라.
+        public DiscountPolicy discountPolicy() {
+            return new RateDiscountPolicy();
+        }
+
+        @Bean  // Spring Container 의 관리대상이 된다.
+        public MemberService memberService () {
+            System.out.println("call AppConfig.memberService");
+            return new MemberServiceImpl(memberRepository()); // 생성자 주입 (DI)
+        }
+
+        @Bean
+        public OrderService orderService() {
+            System.out.println("call AppConfig.orderService");
+            return new OrderServiceImpl(memberRepository(), discountPolicy());
+
+        }
+
+        @Bean
+        public MemoryMemberRepository memberRepository() {
+            System.out.println("call AppConfig.memberRepository");
+            return new MemoryMemberRepository();
+        }
     }
 }
