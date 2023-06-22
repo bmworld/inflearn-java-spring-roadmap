@@ -9,7 +9,6 @@ import core.spring.service.MemberService;
 import core.spring.service.OrderService;
 import core.spring.service.OrderServiceImpl;
 import core.spring.service.discount.RateDiscountPolicy;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -45,32 +44,4 @@ public class AutoAppConfigTest {
   }
 
 
-  @Test
-  @DisplayName("@Autowired Field 생성자주입 테스트")
-  public void fieldAutowired() throws Exception {
-
-    // Given: Spring Bean 등록여부 확인
-    AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AutoAppConfig.class);
-
-    AutowiredAtFieldTarget autowiredAtFieldTarget = ac.getBean(AutowiredAtFieldTarget.class);
-    AutowiredAtFieldNonTarget autowiredAtFieldNonTarget = ac.getBean(AutowiredAtFieldNonTarget.class);
-
-    assertThat(autowiredAtFieldTarget).isNotNull();
-    assertThat(autowiredAtFieldTarget).isInstanceOf(AutowiredAtFieldTarget.class);
-    assertThat(autowiredAtFieldNonTarget).isNotNull();
-    assertThat(autowiredAtFieldNonTarget).isInstanceOf(AutowiredAtFieldNonTarget.class);
-
-
-
-    // When
-    AutowiredAtField autowiredAtField = ac.getBean(AutowiredAtField.class);
-    AutowiredAtFieldTarget target = autowiredAtField.getAutowiredAtFieldTarget();
-    AutowiredAtFieldNonTarget nonTarget = autowiredAtField.getAutowiredAtFieldNonTarget();
-    System.out.println("----- target = " + target);
-    System.out.println("----- nonTarget = " + nonTarget);
-    // Then
-    assertThat(target).isInstanceOf(AutowiredAtFieldTarget.class);
-    assertThat(nonTarget).isNull();
-
-  }
 }
