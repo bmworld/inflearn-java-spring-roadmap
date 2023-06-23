@@ -21,7 +21,7 @@ public class OrderServiceImpl implements OrderService{
    * ( 중요: 선언된 @Qualfier와 사용할 대상의  @Qualfier 이름이 동일해야한ㄷ.
    */
   @Autowired
-  public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+  public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
     this.memberRepository = memberRepository;
     this.discountPolicy = discountPolicy;
   }
