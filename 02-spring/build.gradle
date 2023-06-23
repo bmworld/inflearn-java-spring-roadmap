@@ -8,6 +8,15 @@ group = 'core'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+// ################# lombok 설정 시작 #################
+configurations {
+    compileOnly{
+        extendsFrom annotationProcessor
+    }
+}
+
+// ################# lombok 설정 끝 #################
+
 repositories {
     mavenCentral()
     maven { url 'https://repo.spring.io/milestone' }
@@ -17,6 +26,11 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+
 }
 
 tasks.named('test') {
