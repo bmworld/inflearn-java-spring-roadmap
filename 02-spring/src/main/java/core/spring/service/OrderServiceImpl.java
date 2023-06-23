@@ -1,11 +1,11 @@
 package core.spring.service;
 
+import core.spring.annotation.MainDiscountPolicy;
 import core.spring.domain.Member;
 import core.spring.domain.Order;
 import core.spring.repository.MemberRepository;
 import core.spring.service.discount.DiscountPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,7 +21,7 @@ public class OrderServiceImpl implements OrderService{
    * ( 중요: 선언된 @Qualfier와 사용할 대상의  @Qualfier 이름이 동일해야한ㄷ.
    */
   @Autowired
-  public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+  public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
     this.memberRepository = memberRepository;
     this.discountPolicy = discountPolicy;
   }
