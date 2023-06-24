@@ -1,10 +1,10 @@
 package core.spring.lifecycle;
 
 
-public class NetworkClient_NewVersion {
+public class NetworkClient_ByBeanMethodName {
   private String url;
 
-  public NetworkClient_NewVersion() {
+  public NetworkClient_ByBeanMethodName() {
     System.out.println("생성자 호출, url = " + url);
 
   }
@@ -31,13 +31,13 @@ public class NetworkClient_NewVersion {
 
 
   public void init(){
-    System.out.println("NetworkClient.init");
+    System.out.println("NetworkClient_ByBeanMethodName.init");
     connect();
     call("초기화 연결 메시지");
   }
 
   public void close() {
-    System.out.println("NetworkClient.close");
+    System.out.println("NetworkClient_ByBeanMethodName.close");
     disconnect();
   }
 

@@ -39,8 +39,14 @@ public class BeanLifeCycleTest {
   public void beanLifeCycle() {
     // Given
     ConfigurableApplicationContext ac = new AnnotationConfigApplicationContext(LifeCycleConfig.class);
+//
+//    String[] beanDefinitionNames = ac.getBeanDefinitionNames();
+//    for (String beanDefinitionName : beanDefinitionNames) {
+//      Object bean = ac.getBean(beanDefinitionName);
+//      System.out.println("bean = " + bean);
+//    }
 
-    ac.getBean(NetworkClient_NewVersion.class);
+    ac.getBean(NetworkClient_ByAnnotation.class);
     ac.close(); // ApplicationContext 종료시킨다.
 
   }

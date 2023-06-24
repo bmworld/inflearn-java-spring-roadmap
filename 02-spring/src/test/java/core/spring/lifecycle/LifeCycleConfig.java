@@ -31,18 +31,25 @@ import org.springframework.context.annotation.Configuration;
 public class LifeCycleConfig {
 
   /**
-   * <h1>@Bean 메서드 이름 지정 방법</h1
-   * <p> @Configuration의 생명주기에 따라서
-   * initMethod, destroyMethod를 지정할 수 있다.<p/>
+   * <h1>@Bean 메서드 이름 지정 방법</h1>
+   * <pre>
+   *   @적용방법: @Bean(initMethod = "초기화 메서드명", destroyMethod = "종료시킬 메서드명") <br/>
+   *   => @Configuration의 생명주기에 따라서
+   *    * initMethod, destroyMethod를 지정할 수 있다.
+   * </pre>
+   * <br/>
+   * <br/>
+   * <br/>
    * @initMethod 해당 메서드 초기화 시 실행시킬 method 이름 <br/>
    *             => NetworkClient_NewVersion > init() 실행
    * @destroyMethod 해당 메서드 소멸 시 실행시킬 method 이름 <br/>
    *             => NetworkClient_NewVersion > close() 실행 <br/>
    *             => AnnotationConfigApplicationContext가 close 될 경우, 실행됨
    */
-  @Bean(initMethod = "init", destroyMethod = "close")
-  public NetworkClient_NewVersion setNetworkClient() {
-    NetworkClient_NewVersion networkClient = new NetworkClient_NewVersion();
+//  @Bean(initMethod = "init", destroyMethod = "close")
+  @Bean
+  public NetworkClient_ByAnnotation setNetworkClient() {
+    NetworkClient_ByAnnotation networkClient = new NetworkClient_ByAnnotation();
     networkClient.setUrl("http://hello.network.dev");
     return networkClient;
   }
