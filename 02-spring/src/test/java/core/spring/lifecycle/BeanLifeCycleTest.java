@@ -36,11 +36,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class BeanLifeCycleTest {
   @Test
   @DisplayName("Bean Lifecycle Test")
-  public void testBeanLifecyle() throws Exception {
+  public void beanLifeCycle() {
     // Given
     ConfigurableApplicationContext ac = new AnnotationConfigApplicationContext(LifeCycleConfig.class);
 
-    NetworkClient client = ac.getBean(NetworkClient.class);
+    ac.getBean(NetworkClient_NewVersion.class);
     ac.close(); // ApplicationContext 종료시킨다.
 
   }
