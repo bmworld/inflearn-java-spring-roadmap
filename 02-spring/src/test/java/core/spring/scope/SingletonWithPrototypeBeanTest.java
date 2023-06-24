@@ -21,6 +21,57 @@ public class SingletonWithPrototypeBeanTest {
 
   @Test
   @DisplayName("Singleton Bean에 주입받은 Prototype - 의도대로 작동")
+  public void intentionalPrototypeInSingletonByJavaxProvider() {
+
+
+    // Given
+    AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(
+      SingletonWithPrototypeBeanAndJavaxProvider.class,
+      PrototypeBean.class);
+
+    SingletonWithPrototypeBeanAndJavaxProvider singletonBean1 = ac.getBean(SingletonWithPrototypeBeanAndJavaxProvider.class);
+    SingletonWithPrototypeBeanAndJavaxProvider singletonBean2 = ac.getBean(SingletonWithPrototypeBeanAndJavaxProvider.class);
+
+
+    PrototypeBean prototypeBean = ac.getBean(PrototypeBean.class);
+    int initCount = prototypeBean.getCount();
+    int intendedCount = initCount + 1;
+
+
+    // When - 최초 변경
+    Map<String, Object> resultMap1 = singletonBean1.intentionalLogic();
+
+    int firstChangedCount = (int) resultMap1.get("count");
+
+    // Then
+    assertThat(firstChangedCount).isEqualTo(intendedCount);
+
+    List<PrototypeBean> prototypeBeans = new ArrayList<>();
+    for (int i = 0; i < 10; i++) {
+      // When - N 번째 변경
+      Map<String, Object> resultMap2 =singletonBean2.intentionalLogic();
+      int count = (int) resultMap2.get("count");
+      // Then
+      assertThat(count).isEqualTo(intendedCount);
+
+      // When - Prototype bean 검증
+      PrototypeBean currentPrototypeBean = (PrototypeBean) resultMap2.get("bean");
+      prototypeBeans.add(currentPrototypeBean);
+
+      int beforeBeanIndex = i - 1;
+      if (i != 0) {
+        PrototypeBean beforePrototypeBean = prototypeBeans.get(beforeBeanIndex);
+        System.out.println("----- intentionalPrototypeInSingletonByJavaxProvider > beforePrototypeBean = " + beforePrototypeBean);
+        System.out.println("----- intentionalPrototypeInSingletonByJavaxProvider > currentPrototypeBean = " + currentPrototypeBean);
+        assertThat(currentPrototypeBean).isNotSameAs(beforePrototypeBean);
+      }
+    }
+
+  }
+
+
+  @Test
+  @DisplayName("Singleton Bean에 주입받은 Prototype - 의도대로 작동")
   public void intentionalPrototypeInSingleton() {
 
 

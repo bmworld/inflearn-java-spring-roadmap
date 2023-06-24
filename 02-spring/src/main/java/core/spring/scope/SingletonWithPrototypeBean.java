@@ -83,8 +83,6 @@ public class SingletonWithPrototypeBean {
     resultMap.put("count", count);
     resultMap.put("bean", ptBean);
     return resultMap;
-
-
   }
 
   @PostConstruct
