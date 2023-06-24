@@ -8,9 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 @MainDiscountPolicy
 public class RateDiscountPolicy implements DiscountPolicy{
-  private int discountPercent = 10;
   @Override
   public int discount(Member member, int price) {
-    return member.getGrade().equals(Grade.VIP) ? price * discountPercent / 100 : 0;
+    return member.getGrade().equals(Grade.VIP) ? price * DiscountVar.RatedDiscountPercent / 100 : 0;
   }
 }

@@ -6,7 +6,7 @@ import core.spring.domain.Order;
 import core.spring.repository.MemoryMemberRepository;
 import core.spring.service.OrderServiceImpl;
 import core.spring.service.discount.FixDiscountPolicy;
-import core.spring.service.discount.FixedDiscountVar;
+import core.spring.service.discount.DiscountVar;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ public class AutowiredAtConstructorTest {
         // When
         Order order = orderService.createOrder(1L, "item1", 100000);
         // Then
-        Assertions.assertThat(order.getDiscountPrice()).isEqualTo(FixedDiscountVar.discountAmount); // VIP 일경우 1,000원 할인
+        Assertions.assertThat(order.getDiscountPrice()).isEqualTo(DiscountVar.fixedDiscountAmount); // VIP 일경우 1,000원 할인
 
     }
 }
