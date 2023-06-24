@@ -10,7 +10,7 @@ sourceCompatibility = '11'
 
 // ################# lombok 설정 시작 #################
 configurations {
-    compileOnly{
+    compileOnly {
         extendsFrom annotationProcessor
     }
 }
@@ -24,13 +24,20 @@ repositories {
 }
 
 dependencies {
+    // spring-boot
     implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+
+    // lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
-
+    // test
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module:'junit-vintage-engine'
+    }
 }
 
 tasks.named('test') {
