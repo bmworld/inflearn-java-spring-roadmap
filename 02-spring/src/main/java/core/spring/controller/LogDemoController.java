@@ -3,6 +3,8 @@ package core.spring.controller;
 import core.spring.common.MyLogger;
 import core.spring.service.LogDemoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,17 +28,26 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class LogDemoController {
 
-  private final LogDemoService logDemoService;
-  private final MyLogger logger; // request scope => client request가 있어야 존재하는데, 요청이 없으니 최초 주입 시 에러가 발생한다.
-  // 따라서 이때, Provider를 사용해야하는 거다.
 
+  /**
+   * @- @Scope("request") Bean을 바로 주입받으려는 경우, 에러 발생한다. => Why? request scope bean은 HTTP 요청 시점에 생성되기 때문.
+   * @- {@link ObjectFactory} 덕분에, HTTP 호출 시점까지  Spring container 에 Bean 요청을 지연가능
+   * @- {@link ObjectFactory#getObject()} 호출 시점에는 HTTP 요청이 진행 중이므로, request scope bean 생성이 정상 처리된다.
+   * @- `LogDemoController`, `LogDemoService` 등 각기 다른 Class에서 request bean을 따로 호출하더라도,
+   *     Spring container는 "같은 HTTP 요청에 대해 동일한 Bean 반환" 한다.
+   */
+  private final ObjectProvider<MyLogger> loggerProvider;
+
+  private final LogDemoService logDemoService;
 
   @RequestMapping("/log-demo")
   @ResponseBody
-  public String logDemo(HttpServletRequest request) {
+  public String logDemo(HttpServletRequest request) throws InterruptedException {
+    MyLogger logger = loggerProvider.getObject();
     String requestURL = request.getRequestURL().toString();
     logger.setRequestURL(requestURL);
     logger.log("controller test");
+    Thread.sleep(2000); // UUID가 유지되는지 확인용 => 시간차를 두고, HTTP 요청이 섞이게(리프레쉬 연타) 함
     logDemoService.logic("test id");
     return "OK!!";
   }

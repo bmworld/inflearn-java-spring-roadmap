@@ -29,13 +29,13 @@ public class MyLogger {
   }
 
   public void log(String message) {
-    System.out.println("[" + uuid + "] / [ " + requestURL  + " ] " + message);
+    System.out.println("[" + uuid + "] [ " + requestURL  + " ] " + message);
   }
 
 
   @PostConstruct
   public void init() {
-    String uuid = UUID.randomUUID().toString(); // uuid 겹칠 확률은 로또의 로또의 로또의 당첨 확률 정도임
+    this.uuid =  UUID.randomUUID().toString(); // uuid 겹칠 확률은 로또의 로또의 로또의 당첨 확률 정도임
     System.out.println("[" + uuid + "] request scope bean create: " + this);
   }
 
