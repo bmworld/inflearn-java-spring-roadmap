@@ -4,7 +4,6 @@ import core.spring.common.MyLogger;
 import core.spring.service.LogDemoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,14 +35,20 @@ public class LogDemoController {
    * @- `LogDemoController`, `LogDemoService` 등 각기 다른 Class에서 request bean을 따로 호출하더라도,
    *     Spring container는 "같은 HTTP 요청에 대해 동일한 Bean 반환" 한다.
    */
-  private final ObjectProvider<MyLogger> loggerProvider;
+  private final MyLogger logger; // Proxy Ver.
+
+//  private final ObjectProvider<MyLogger> loggerProvider; // Provider Ver.
+
+
 
   private final LogDemoService logDemoService;
+
 
   @RequestMapping("/log-demo")
   @ResponseBody
   public String logDemo(HttpServletRequest request) throws InterruptedException {
-    MyLogger logger = loggerProvider.getObject();
+//    MyLogger logger = loggerProvider.getObject();
+    System.out.println("------ proxy class 주입된 logger class = " + logger.getClass());
     String requestURL = request.getRequestURL().toString();
     logger.setRequestURL(requestURL);
     logger.log("controller test");
