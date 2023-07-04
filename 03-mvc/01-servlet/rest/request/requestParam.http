@@ -1,0 +1,2 @@
+
+POST http://localhost:8080/request-param?name=bm&age=20&name=david
