@@ -48,7 +48,13 @@ public class RequestParamServlet extends HttpServlet {
     res.setContentType("text/html;charset=UTF-8");
     PrintWriter writer = res.getWriter();
     writer.flush();
-    writer.println("<h1>안녕?</h1>");
+    writer.println(
+      "<html>" +
+        "<h1>" + "RequestParamPage" + "</h1>" +
+        "<p> name = " + name + "</p>" +
+        "<p> age = " + age + "</p>" +
+        "</html>"
+    );
 
 
   }
