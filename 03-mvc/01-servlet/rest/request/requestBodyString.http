@@ -1,0 +1,4 @@
+GET http://localhost:8080/request-body-string
+Content-Type: text/plain
+
+"this is message body!!!!"
