@@ -6,6 +6,7 @@
 <body>
 성공
 <ul>
+    <%-- MvcMemberSaveServlet => request.setAttribute("member") 값을 가져옴 --%>
     <li>id=${member.id}</li>
     <li>username=${member.username}</li>
     <li>age=${member.age}</li>
