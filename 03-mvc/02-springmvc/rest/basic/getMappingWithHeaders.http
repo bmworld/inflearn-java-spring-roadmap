@@ -1,0 +1,4 @@
+
+// path 및 parameter까지 일치해야, 200 status
+GET http://localhost:8080/mapping-header
+mode:debug
