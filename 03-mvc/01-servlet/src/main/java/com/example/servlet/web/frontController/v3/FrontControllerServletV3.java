@@ -44,7 +44,7 @@ public class FrontControllerServletV3 extends HttpServlet {
         }
 
         // paramMap
-        Map<String, String> paramMap = createParamMap(req);
+        Map<String, String> paramMap = createParamM직ap(req);
         ModelView mv = controller.process(paramMap);
         // view 의 논리이름을 물리이름으로 바꾼다.  (ex. name => /WEB-INF/view/name.jsp)
         String viewName = mv.getViewName();
@@ -54,11 +54,11 @@ public class FrontControllerServletV3 extends HttpServlet {
 
     }
 
-    private static MyView viewResolver(String viewName) {
+    private MyView viewResolver(String viewName) {
         return new MyView("/WEB-INF/views/" + viewName + ".jsp");
     }
 
-    private static Map<String, String> createParamMap(HttpServletRequest req) {
+    private Map<String, String> createParamMap(HttpServletRequest req) {
         Map<String, String> paramMap = new HashMap<String, String>();
         req.getParameterNames().asIterator().forEachRemaining(paramName -> paramMap.put(paramName, req.getParameter(paramName)));
         return paramMap;
