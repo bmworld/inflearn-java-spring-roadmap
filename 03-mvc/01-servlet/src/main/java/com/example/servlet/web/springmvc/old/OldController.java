@@ -1,4 +1,4 @@
-package com.example.servlet.web.springMvc.old;
+package com.example.servlet.web.springmvc.old;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
