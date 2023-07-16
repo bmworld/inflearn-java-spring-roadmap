@@ -44,7 +44,7 @@ public class FrontControllerServletV3 extends HttpServlet {
         }
 
         // paramMap
-        Map<String, String> paramMap = createParamM직ap(req);
+        Map<String, String> paramMap = createParamMap(req);
         ModelView mv = controller.process(paramMap);
         // view 의 논리이름을 물리이름으로 바꾼다.  (ex. name => /WEB-INF/view/name.jsp)
         String viewName = mv.getViewName();
