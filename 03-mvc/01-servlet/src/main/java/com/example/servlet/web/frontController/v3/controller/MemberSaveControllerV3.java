@@ -12,7 +12,7 @@ public class MemberSaveControllerV3 implements ControllerV3 {
 
     @Override
     public ModelView process(Map<String, String> paramMap) {
-        String name = paramMap.get("name");
+        String name = paramMap.get("username");
         int age = Integer.parseInt(paramMap.get("age"));
         Member member = new Member(name, age);
         memberRepository.save(member);
