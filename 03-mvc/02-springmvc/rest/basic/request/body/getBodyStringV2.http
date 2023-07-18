@@ -1,0 +1,9 @@
+
+GET http://localhost:8080/request-body-string-v2
+Content-Type: application/json; charset=UTF-8
+
+{
+  "age": 12,
+  "username" : "david",
+  "job": "DEV"
+}

@@ -1,0 +1,2 @@
+
+GET http://localhost:8080/model-attribute-v2?username=hello&age=22
