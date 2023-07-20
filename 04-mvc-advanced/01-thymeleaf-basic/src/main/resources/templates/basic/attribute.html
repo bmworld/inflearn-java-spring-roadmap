@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tkd="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,10 +7,10 @@
 <body>
 
 <h1>속성 설정</h1>
-<input type="text" name="mock" th:name="userA" />
+<input type="text" name="mock" th:name="'바꿔치기될 값'" />
 
 <h1>속성 추가</h1>
-- th:attrappend = <input type="text" class="text" th:attrappend="class=' large'" /><br/>
+- th:attrappend = <input type="text" class="text" th:attrappend="class=' large'" tkd:ah="HTML tag의 태그 중,th만 없어지고, 그렇지 않은 attribute는 아무런 기능을 하지 않고 ,찌꺼기처럼 남는다."/><br/>z
 - th:attrprepend = <input type="text" class="text" th:attrprepend="class='large '" /><br/>
 - th:classappend = <input type="text" class="text" th:classappend="large" /><br/>
 

@@ -9,33 +9,34 @@
 <!-- 자바스크립트 인라인 사용 전 -->
 <script>
 
-    var username = [[${user.username}]];
-    var age = [[${user.age}]];
+    const username = [[${user.username}]]; // JS에서는 thymeleaf 문법이 안먹히므로, 에러발생함.
+    const age = [[${user.age}]];
 
     //자바스크립트 내추럴 템플릿
-    var username2 = /*[[${user.username}]]*/ "test username";
+    const username2 = /*[[${user.username}]]*/ "test username";  // <-------- /*myUser*/ 값이 들어가는데..이것도 브라우저에서 실행 시, Error 뜬다.
 
     //객체
-    var user = [[${user}]];
+    const user = [[${user}]]; // User 객체가 들어간다. 즉, javascript 에서는 쓸수가 없다.
 </script>
 
 <!-- 자바스크립트 인라인 사용 후 -->
 <script th:inline="javascript">
-    var username = [[${user.username}]];
-    var age = [[${user.age}]];
+    const inlineUsername = [[${user.username}]];
+    const inlineAge = [[${user.age}]];
 
     //자바스크립트 내추럴 템플릿
-    var username2 = /*[[${user.username}]]*/ "test username";
+    // th:inline 으로 인해, /*[[${user.username}]]*/ 값이 실행된다. 뒤에 값이 아니라.
+    const inlineUsername2 = /*[[${user.username}]]*/ "test username";
 
-    //객체
-    var user = [[${user}]];
+    //객체 -> JSON 으로 변경해서 넣어줌.
+    const inlineUser = [[${user}]];
 </script>
 
 <!-- 자바스크립트 인라인 each -->
 <script th:inline="javascript">
 
     [# th:each="user, stat : ${users}"]
-    var user[[${stat.count}]] = [[${user}]];
+    const eachInlineUser[[${stat.count}]] = "[[${user}]]";
     [/]
 
 </script>
