@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 
 @Component
 @RequiredArgsConstructor
-public class TestDataInit {
+public class InitTestData {
 
     private final ItemRepository itemRepository;
 
@@ -20,6 +20,7 @@ public class TestDataInit {
     public void init() {
         itemRepository.save(new Item("itemA", 10000, 10));
         itemRepository.save(new Item("itemB", 20000, 20));
+        itemRepository.save(new Item("itemC", 30000, 30));
     }
 
 }
