@@ -13,11 +13,26 @@
 
     <form th:action method="post" enctype="multipart/form-data">
         <ul>
-            <li>상품명 <input type="text" name="itemName"></li>
-            <li>첨부파일<input type="file" name="attachFile" ></li>
-            <li>이미지 파일들<input type="file" multiple="multiple" name="imageFiles" ></li>
+            <li>
+                <p>상품명</p>
+                <input type="text" name="itemName">
+            </li>
+            <br/>
+            <li>
+                <p>첨부파일</p>
+                <input type="file" name="attachedFile" >
+            </li>
+            <br/>
+            <li>
+                <p>이미지 파일</p>
+                <input type="file" multiple="multiple" name="imageFiles" ></li>
         </ul>
-        <input type="submit"/>
+
+        <br/>
+        <div style="display: flex; align-content: center; justify-content: center;">
+            <input type="submit"/>
+        </div>
+
     </form>
 
 </div> <!-- /container -->

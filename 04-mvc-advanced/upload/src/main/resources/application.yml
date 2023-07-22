@@ -1,0 +1,20 @@
+spring:
+  servlet:
+    multipart:
+      enabled: true  # 비활성화 또는 활서오하 여부
+      max-file-size: 3MB
+      max-request-size: 3MB
+      location: file/upload/
+
+
+
+logging:
+  level:
+    org:
+      apache:
+        coyote:
+          http11: debug
+
+
+file:
+  absolute-path: ${UPLOAD_DIR}
