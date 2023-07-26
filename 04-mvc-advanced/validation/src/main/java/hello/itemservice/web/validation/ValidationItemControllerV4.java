@@ -4,6 +4,8 @@ import hello.itemservice.domain.item.Item;
 import hello.itemservice.domain.item.ItemRepository;
 import hello.itemservice.domain.item.SaveCheck;
 import hello.itemservice.domain.item.UpdateCheck;
+import hello.itemservice.web.validation.form.ItemSaveForm;
+import hello.itemservice.web.validation.form.ItemUpdateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -88,7 +90,7 @@ public class ValidationItemControllerV4 {
    * </pre>
    */
 // ================================= addItemV1 =================================
-  @PostMapping("/add")
+//  @PostMapping("/add")
   public String addItemV1(@Validated(value = SaveCheck.class) @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
 
@@ -123,7 +125,7 @@ public class ValidationItemControllerV4 {
 
 
   // ================================= Edit Item V1 =================================
-  @PostMapping("/{itemId}/edit")
+//  @PostMapping("/{itemId}/edit")
   public String editV1(@PathVariable Long itemId, @Validated(value = UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult) {
 
     // 특정 필드가 아닌 북합오류 검증
@@ -148,6 +150,91 @@ public class ValidationItemControllerV4 {
 
 
     System.out.println(" 검증 통과 " + item );
+
+
+    itemRepository.update(itemId, item);
+    return "redirect:/validation/v4/items/{itemId}";
+  }
+
+
+  // ================================= V2 =================================
+  // ================================= V2 =================================
+  // ================================= V2 =================================
+  // ================================= V2 =================================
+  // ================================= V2 =================================
+  // ================================= V2 =================================
+
+
+  @PostMapping("/add")
+  public String addItemV2(@Validated @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+
+
+    // 특정 필드가 아닌 북합오류 검증
+    int minSalePrice = 10000;
+    if (form.getPrice() != null  && form.getQuantity() != null) {
+      int price = form.getPrice();
+      int quantity = form.getQuantity();
+      int resultPrice = price * quantity;
+      if (resultPrice < minSalePrice) {
+        bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice},null);
+      }
+    }
+
+    // 검증 실패 시, 다시 입력 폼으로
+    if (bindingResult.hasErrors()) {
+      log.info("errors={}", bindingResult);
+      return "/validation/v4/addForm";
+    }
+
+    Item item = Item.builder()
+      .itemName(form.getItemName())
+      .price(form.getPrice())
+      .quantity(form.getQuantity())
+      .build();
+
+    // 성공 로직
+    Item savedItem = itemRepository.save(item);
+    redirectAttributes.addAttribute("itemId", savedItem.getId());
+    redirectAttributes.addAttribute("status", true);
+    return "redirect:/validation/v4/items/{itemId}";
+  }
+
+
+
+  @PostMapping("/{itemId}/edit")
+  public String editV2(@PathVariable Long itemId, @Validated @ModelAttribute("item") ItemUpdateForm form, BindingResult bindingResult) {
+
+    // 특정 필드가 아닌 북합오류 검증
+    int minSalePrice = 10000;
+    if (form.getPrice() != null  && form.getQuantity() != null) {
+      int price = form.getPrice();
+      int quantity = form.getQuantity();
+      int resultPrice = price * quantity;
+      if (resultPrice < minSalePrice) {
+        bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice},null);
+      }
+    }
+
+    System.out.println("bindingResult = " + bindingResult);
+
+    // 검증 실패 시, 다시 입력 수정 폼으로
+    if (bindingResult.hasErrors()) {
+      System.out.println("검증 오류 존재");
+      log.info("errors={}", bindingResult);
+      return "validation/v4/editForm";
+    }
+
+
+    System.out.println(" 검증 통과 " + form );
+
+
+
+    Item item = Item.builder()
+      .id(form.getId())
+      .itemName(form.getItemName())
+      .price(form.getPrice())
+      .quantity(form.getQuantity())
+      .build();
 
 
     itemRepository.update(itemId, item);
