@@ -2,6 +2,7 @@ package hello.login.web.login;
 
 import hello.login.domain.member.Member;
 import hello.login.service.LoginService;
+import hello.login.web.util.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @Slf4j
@@ -23,7 +27,7 @@ public class LoginController {
   }
 
   @PostMapping("/login")
-  public String login(@ModelAttribute LoginForm form, BindingResult bindingResult) {
+  public String login(@ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletResponse res) {
     if (bindingResult.hasErrors()) {
       return "login/loginForm";
     }
@@ -36,6 +40,9 @@ public class LoginController {
 
     // TODO: 로그인 성공 처리
     log.info("Login success member={}", member);
+    Cookie cookie = CookieUtils.createCookie("memberId", String.valueOf(member.getId()));
+    res.addCookie(cookie);
     return "redirect:/";
   }
+
 }
