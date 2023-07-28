@@ -32,6 +32,9 @@ class ItemRepositoryTest {
     @Test
     void findAll() {
         //given
+        // Repo 초기화
+        itemRepository.clearStore();
+        //
         Item item1 = new Item("item1", 10000, 10);
         Item item2 = new Item("item2", 20000, 20);
 

@@ -10,6 +10,10 @@ import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.*;
 
+
+/**
+ * 본인 기본 Lang = EN
+ */
 @SpringBootTest
 public class MessageSourceTest {
 
@@ -19,7 +23,7 @@ public class MessageSourceTest {
     @Test
     void helloMessage() {
         String result = ms.getMessage("hello", null, null);
-        assertThat(result).isEqualTo("안녕");
+        assertThat(result).isEqualTo("hello");
     }
 
     @Test
@@ -37,17 +41,22 @@ public class MessageSourceTest {
     @Test
     void argumentMessage() {
         String result = ms.getMessage("hello.name", new Object[]{"Spring"}, null);
-        assertThat(result).isEqualTo("안녕 Spring");
+        assertThat(result).isEqualTo("hello Spring");
     }
 
     @Test
     void defaultLang() {
-        assertThat(ms.getMessage("hello", null, null)).isEqualTo("안녕");
-        assertThat(ms.getMessage("hello", null, Locale.KOREA)).isEqualTo("안녕");
+        assertThat(ms.getMessage("hello", null, null)).isEqualTo("hello");
+
     }
 
     @Test
     void enLang() {
         assertThat(ms.getMessage("hello", null, Locale.ENGLISH)).isEqualTo("hello");
+    }
+
+    @Test
+    void koLang() {
+        assertThat(ms.getMessage("hello", null, Locale.KOREA)).isEqualTo("안녕");
     }
 }
