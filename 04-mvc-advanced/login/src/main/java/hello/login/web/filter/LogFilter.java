@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static java.time.LocalDateTime.now;
@@ -41,18 +40,16 @@ public class LogFilter implements Filter {
 //      e.printStackTrace();
       throw e;
     } finally {
+      log.info("REQUEST [{}] / URI=[{}] / timestamp=[{}] / takenMilliTime=[{}] ", uuid, requestURI, now(), getTakenMilliTime(beforeTime));
 
-      long diffTime = getDiffTime(beforeTime);
-      log.info("REQUEST [{}] / URI=[{}], timestamp=[{}]", uuid, requestURI, now());
     }
 
 
   }
 
-  private static long getDiffTime(long beforeTime) {
+  private String getTakenMilliTime(long beforeTime) {
     long afterTime = System.currentTimeMillis();
-    short secondUnit = 1000;
-    return (beforeTime - afterTime) / secondUnit;
+    return String.valueOf(afterTime - beforeTime );
   }
 
   @Override

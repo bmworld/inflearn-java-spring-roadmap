@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -103,7 +100,9 @@ public class LoginController {
    * </pre>
    */
   @PostMapping("/login")
-  public String loginBySpringSession(@ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest req) {
+  public String loginBySpringSession(@ModelAttribute LoginForm form, BindingResult bindingResult,
+                                     @RequestParam(defaultValue = "/") String redirectURL,
+                                     HttpServletRequest req) {
     if (bindingResult.hasErrors()) {
       return "login/loginForm";
     }
@@ -125,7 +124,7 @@ public class LoginController {
     // 세션 회원 정보 보관
     session.setAttribute(SessionConst.LOGIN_MEMBER, member);
 
-    return "redirect:/";
+    return "redirect:" + redirectURL;
   }
 
 
