@@ -2,6 +2,7 @@ package hello.login.web;
 
 import hello.login.domain.member.Member;
 import hello.login.repository.MemberRepository;
+import hello.login.web.argumentResolver.Login;
 import hello.login.web.session.SessionConst;
 import hello.login.web.session.SessionManager;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class HomeController {
 
     // =============================== LOGIN BY COOKIE ==================================
 
-//    @GetMapping("/")
+    //    @GetMapping("/")
     public String homeByLoginByCookie(@CookieValue(name = "memberId", required = false) Long memberId, Model model) {
         if (memberId == null) {
             return "home";
@@ -66,7 +67,6 @@ public class HomeController {
         return "loginHome";
 
     }
-
 
 
     // =============================== LOGIN BY Spring SESSION ==================================
@@ -109,7 +109,7 @@ public class HomeController {
      * </pre>
      */
 
-    @GetMapping("/")
+//    @GetMapping("/")
     public String homeByLoginBySpringSessionByAnnotation(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member, Model model) {
 
 
@@ -124,5 +124,39 @@ public class HomeController {
         return "loginHome";
 
     }
+
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // =================================================================
+    // ============== 편의기능 Argument Resolver =================
+    @GetMapping("/")
+    public String homeWithArgumentResolver(@Login Member member, Model model) {
+
+        System.out.println("homeByArgumentResolver > member = " + member);
+        // 회원 정보가 없으면 Redir
+        if (member == null) {
+            return "home";
+        }
+
+
+        model.addAttribute("member", member);
+
+        return "loginHome";
+
+    }
+
 
 }
