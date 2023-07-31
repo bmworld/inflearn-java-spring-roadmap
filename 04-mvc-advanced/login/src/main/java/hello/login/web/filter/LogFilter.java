@@ -2,6 +2,7 @@ package hello.login.web.filter;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import static java.time.LocalDateTime.now;
  * 참고: 실무에서 HTTP 요청 시, 같으 ㄴ요청의 로그에 모두 같은 식별자를 자동으로 남기는 방법 => logback mdc
  */
 @Slf4j
+@Component
 public class LogFilter implements Filter {
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
