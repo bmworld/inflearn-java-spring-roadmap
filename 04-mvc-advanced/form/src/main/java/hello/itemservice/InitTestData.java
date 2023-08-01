@@ -18,9 +18,9 @@ public class InitTestData {
      */
     @PostConstruct
     public void init() {
-        itemRepository.save(new Item("itemA", 10000, 10));
-        itemRepository.save(new Item("itemB", 20000, 20));
-        itemRepository.save(new Item("itemC", 30000, 30));
+        itemRepository.save(new Item("item1", 1000, 1));
+        itemRepository.save(new Item("item2", 2000, 2));
+        itemRepository.save(new Item("item3", 3000, 3));
     }
 
 }

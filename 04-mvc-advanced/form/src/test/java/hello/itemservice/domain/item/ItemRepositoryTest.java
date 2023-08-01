@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.*;
 
 class ItemRepositoryTest {
 
-    ItemRepository itemRepository = new ItemRepository();
+    private final ItemRepository itemRepository = new ItemRepository();
 
     @AfterEach
     void afterEach() {

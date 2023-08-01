@@ -60,7 +60,10 @@ public class FormItemController {
     @GetMapping
     public String items(Model model) {
         List<Item> items = itemRepository.findAll();
+        for (Item item : items) {
+        }
         model.addAttribute("items", items);
+
         return "form/items";
     }
 
