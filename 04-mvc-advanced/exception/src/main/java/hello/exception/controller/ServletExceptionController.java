@@ -8,6 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * <h1>실무에서는 고객에게 자세한 에러메시지를 노출하지 마시라.</h1>
+ * <pre>
+ *  고객이 이해할 수 있는 간단한 오류 메시지 사용
+ *  상세오류는 Server에 Log로 남겨서 확인해야한다.
+ * </pre>
+ *
+ *
+ */
 @Slf4j
 @Controller
 public class ServletExceptionController {
@@ -15,6 +24,10 @@ public class ServletExceptionController {
   @GetMapping("/error-ex")
   public void errorException() {
     throw new RuntimeException("Error occurred!");
+  }
+  @GetMapping("/error-400")
+  public void error400(HttpServletResponse response) throws IOException {
+    response.sendError(400, "400 Error occurred!");
   }
 
 
