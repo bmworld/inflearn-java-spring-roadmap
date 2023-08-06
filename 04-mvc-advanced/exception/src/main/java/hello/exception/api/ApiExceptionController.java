@@ -6,10 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
@@ -50,6 +47,11 @@ public class ApiExceptionController {
     // 상태코드와 Error Message 한번에 처리할 수 있는 Exception
     // + messages.properties 사용하여, Error Message 전달할 수 있음
     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "error.bad2", new IllegalArgumentException());
+  }
+
+  @GetMapping("def-handler-ex")
+  public String defaultHandlerException(@RequestParam Integer data) {
+    return "ok!!!";
   }
 
 

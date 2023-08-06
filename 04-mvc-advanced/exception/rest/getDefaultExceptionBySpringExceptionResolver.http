@@ -1,0 +1,5 @@
+// Spring이 해당 에러를 DefaultHandlerException을 사용하여 500->400 변경해서 처리함.
+
+GET http://localhost:8080/api/def-handler-ex?data=adfasfsa
+Content-Type: application/json
+accept: application/json
