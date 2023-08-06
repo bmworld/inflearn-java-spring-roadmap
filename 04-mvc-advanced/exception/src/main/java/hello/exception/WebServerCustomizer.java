@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
  *   WAS -> "/error-page/500" 자체적으로 Request 생성 -> Filter -> Servlet 생성 -> Interceptor -> Controller ("/error-page/500") -> View
  * </pre>
  */
-//@Component
+@Component
 public class WebServerCustomizer implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
 
   /**
