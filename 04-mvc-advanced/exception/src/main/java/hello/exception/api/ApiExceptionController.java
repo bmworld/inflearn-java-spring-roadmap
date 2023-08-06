@@ -21,6 +21,10 @@ public class ApiExceptionController {
       throw new RuntimeException("Invalid member!");
     }
 
+    if (id.equals("400")) {
+      throw new IllegalArgumentException("Invalid argument!");
+
+    }
 
 
     return new MemberDto(id, "hello-"+id);
