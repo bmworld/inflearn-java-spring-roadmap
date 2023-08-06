@@ -1,5 +1,6 @@
 package hello.exception.api;
 
+import hello.exception.exception.CustomException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,9 @@ public class ApiExceptionController {
 
     }
 
+    if (id.equals("custom-ex")) {
+      throw new CustomException("Custom Exception!");
+    }
 
     return new MemberDto(id, "hello-"+id);
 

@@ -1,6 +1,6 @@
 // accept 설정해야, HTML 응답이 아닌 json 방식을 응답받을 수 있다.
 
 
-GET http://localhost:8080/api/members/ex
+GET http://localhost:8080/api/members/custom-ex
 Content-Type: application/json
 accept: application/json
