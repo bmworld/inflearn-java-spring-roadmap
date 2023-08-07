@@ -22,8 +22,8 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/v2/")
-public class ApiExceptionV2Controller {
+@RequestMapping(value = "/api/v3/")
+public class ApiExceptionV3Controller {
 
 
 
