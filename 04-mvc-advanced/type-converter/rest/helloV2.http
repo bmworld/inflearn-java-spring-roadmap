@@ -1,0 +1,3 @@
+
+// v2에서WebConfig에 적용시킨, "formatter" 적용여부 확인하시라.
+GET http://localhost:8080/hello/v2?data=1,000,000
