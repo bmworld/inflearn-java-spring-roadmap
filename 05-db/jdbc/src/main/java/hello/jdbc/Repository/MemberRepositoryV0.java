@@ -48,6 +48,31 @@ public class MemberRepositoryV0 {
   }
 
 
+  public void delete(String memberId) throws SQLException {
+    String sql = "DELETE FROM MEMBER WHERE member_id=?";
+
+    Connection con = null;
+    PreparedStatement pstmt = null;
+
+
+    try {
+      con = getConnection();
+      pstmt = con.prepareStatement(sql);
+      pstmt.setString(1, memberId);
+      int resultSize = pstmt.executeUpdate(); // Query 실행으로 영향받은 `row` count 반환.
+
+      log.info("delete > resultSize = {}", resultSize);
+
+    } catch (SQLException e) {
+      log.error("---- delete > db error", e);
+      e.getStackTrace();
+      throw e;
+    } finally {
+      close(con, pstmt, null);
+    }
+  }
+
+
   public void deleteAll() throws SQLException {
 
     String sql = "DELETE FROM Member";
@@ -101,7 +126,7 @@ public class MemberRepositoryV0 {
       rs = pstmt.executeQuery();
 
 
-      System.out.println("--- rs = " + rs);
+      System.out.println("--- rs = " + rs); // e.g) rs0: columns: 2 rows: 1 pos: -1
 
 
       // rs.next() 를 한번은 실행해줘야, 실제 데이터에 있는 것부터 실행이 된다.
@@ -112,7 +137,6 @@ public class MemberRepositoryV0 {
         return member;
       } else {
         // resultSet에서 `커서`가 있는데... 거기에서 데이터가 없는 경우.
-
         throw new NoSuchElementException("Member not found memberId=" + memberId);
       }
 

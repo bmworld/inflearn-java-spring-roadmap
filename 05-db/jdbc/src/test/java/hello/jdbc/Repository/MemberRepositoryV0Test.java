@@ -1,15 +1,19 @@
 package hello.jdbc.Repository;
 
 import hello.jdbc.domain.Member;
+import lombok.experimental.StandardException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Slf4j
 class MemberRepositoryV0Test {
@@ -61,6 +65,20 @@ class MemberRepositoryV0Test {
 
     Member foundMember = repository.findById(member.getMemberId());
     assertThat(foundMember.getMoney()).isEqualTo(afterMoney);
+
+  }
+
+
+  @Test
+  @DisplayName("delete")
+  public void delete() throws Exception {
+    // Given
+    Member member = generateMember();
+    // When
+    repository.delete(member.getMemberId());
+    // Then
+    assertThatThrownBy(() ->
+      repository.findById(member.getMemberId())).isInstanceOf(NoSuchElementException.class);
 
   }
 
