@@ -103,7 +103,7 @@ class MemberServiceV4_2Test {
     int beforeMoney_A = 10000;
     int beforeMoney_B = 10000;
     Member memberA = generateMembers(MEMBER_A, beforeMoney_A);
-    Member memberB = generateMembers(MEMBER_Exception, beforeMoney_B);
+    Member memberB = generateMembers(MEMBER_B, beforeMoney_B);
 
 
     memberRepository.save(memberA);
