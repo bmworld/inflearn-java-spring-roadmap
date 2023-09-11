@@ -14,5 +14,6 @@ public interface ItemRepository {
     Optional<Item> findById(Long id);
 
     List<Item> findAll(ItemSearchCond cond);
+    void deleteAll();
 
 }
