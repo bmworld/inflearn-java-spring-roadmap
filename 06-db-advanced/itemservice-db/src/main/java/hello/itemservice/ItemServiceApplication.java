@@ -10,7 +10,8 @@ import org.springframework.context.annotation.Profile;
 
 
 //@Import(MemoryConfig.class) // Memory Ver.
-@Import(JdbcTemplateV1Config.class)
+//@Import(JdbcTemplateV1Config.class)
+@Import(JdbcTemplateV2Config.class)
 @SpringBootApplication(scanBasePackages = "hello.itemservice.web")  // * 해당 Package만 Component Scan / 나머지는 수동 등록해야함
 public class ItemServiceApplication {
 
