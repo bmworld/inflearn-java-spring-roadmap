@@ -41,21 +41,21 @@ public class ItemServiceApplication {
    *
    * @return
    */
-  @Bean
-  @Profile("test")
-  public DataSource dataSource() {
-    log.info("--- Initializing memory Database");
-
-    DriverManagerDataSource dataSource = new DriverManagerDataSource();
-    dataSource.setDriverClassName("org.h2.Driver");
-    /**
-     * JVM 내에 Embedded mode H2 DB 사용
-     * DB_CLOSE_DELAY=-1 => Embdded Mode에서 DB connection이 모두 끊어질 경우 DB가 종료되는 것을 방지하는 설정
-     */
-    dataSource.setUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1");
-    dataSource.setUsername("sa");
-    dataSource.setPassword("");
-    return dataSource;
-  }
+//  @Bean
+//  @Profile("test")
+//  public DataSource dataSource() {
+//    log.info("--- Initializing memory Database");
+//
+//    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//    dataSource.setDriverClassName("org.h2.Driver");
+//    /**
+//     * JVM 내에 Embedded mode H2 DB 사용
+//     * DB_CLOSE_DELAY=-1 => Embdded Mode에서 DB connection이 모두 끊어질 경우 DB가 종료되는 것을 방지하는 설정
+//     */
+//    dataSource.setUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1");
+//    dataSource.setUsername("sa");
+//    dataSource.setPassword("");
+//    return dataSource;
+//  }
 
 }
