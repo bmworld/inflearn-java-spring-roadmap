@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,20 +28,22 @@ import static org.assertj.core.api.Assertions.assertThat;
  *   2. 테스트는 반복해서 실행할 수 있다.
  * </pre>
  */
+
+@Transactional // Spring: TEST transaction 안에서 실행 & 테스트 종료 시 Transaction 자동 rollback
 @SpringBootTest // => 상위 패키지를 탐색하여 `@SpringBootApplication`을 찾는다. => 발견한 Application내의 설정들도 모두 사용한다. (ex. @Import(JdbcTemplateV3Config.class))
 class ItemRepositoryTest {
-
-  @Autowired
-  private PlatformTransactionManager tm;
-  private TransactionStatus status;
+//
+//  @Autowired
+//  private PlatformTransactionManager tm;
+//  private TransactionStatus status;
 
   @Autowired
   private ItemRepository itemRepository;
 
-  @BeforeEach
-  void beforeEach() {
-    status = tm.getTransaction(new DefaultTransactionDefinition());
-  }
+//  @BeforeEach
+//  void beforeEach() {
+//    status = tm.getTransaction(new DefaultTransactionDefinition());
+//  }
 
   @AfterEach
   void afterEach() {
@@ -51,12 +54,13 @@ class ItemRepositoryTest {
 
 
     // DB 격리화방법: transaction 시작 시, 초기 status 적용하여, rollback
-    tm.rollback(status);
+//    tm.rollback(status);
 
   }
 
 
   @Test
+  @Rollback(value = false)
   void save() {
     //given
     Item item = new Item("itemA", 10000, 10);
