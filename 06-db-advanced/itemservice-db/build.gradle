@@ -29,6 +29,9 @@ dependencies {
 	// H2 DB 추가
 	runtimeOnly('com.h2database:h2')
 
+	// MyBatis 추가 (cf. spring 미관리 대상 Library 는 버전정보 명시)
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
+
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
