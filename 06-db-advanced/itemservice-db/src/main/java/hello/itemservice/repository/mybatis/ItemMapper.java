@@ -5,6 +5,7 @@ import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +51,9 @@ public interface ItemMapper {
 
   void update(@Param("id") Long id, @Param("updateParam") ItemUpdateDto updateParam);
 
+  // Annotation 방식으로 사용가능 ([주의] xml파일과 중복 시, Exception)
+  // Exception: o.m.spring.mapper.MapperFactoryBean      : Error while adding the mapper 'interface hello.itemservice.repository.mybatis.ItemMapper' to configuration.
+//  @Select("SELECT id, item_name, price, quantity FROM ITEM WHERE id = #{id}")
   Optional<Item> findById(Long id);
 
   List<Item> findAll(ItemSearchCond itemSearchCond);
