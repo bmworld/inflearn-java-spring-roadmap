@@ -3,7 +3,7 @@
 <mapper namespace="hello.itemservice.repository.mybatis.ItemMapper">
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO ITEM (item_name, price, quantity)
-        VALUES (#{item_name}, #{price}, #{quantity})
+        VALUES (#{itemName}, #{price}, #{quantity})
     </insert>
     <update id="update">
         UPDATE ITEM

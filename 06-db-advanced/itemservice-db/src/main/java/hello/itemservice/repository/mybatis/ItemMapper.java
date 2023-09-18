@@ -54,5 +54,5 @@ public interface ItemMapper {
 
   List<Item> findAll(ItemSearchCond itemSearchCond);
 
-
+  void deleteAll();
 }

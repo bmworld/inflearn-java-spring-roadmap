@@ -39,6 +39,6 @@ public class MyBatisItemRepository implements ItemRepository {
 
   @Override
   public void deleteAll() {
-
+    itemMapper.deleteAll();
   }
 }
