@@ -16,7 +16,8 @@ import javax.sql.DataSource;
 //@Import(MemoryConfig.class) // Memory Ver.
 //@Import(JdbcTemplateV1Config.class)
 //@Import(JdbcTemplateV2Config.class)
-@Import(JdbcTemplateV3Config.class)
+//@Import(JdbcTemplateV3Config.class)
+@Import(MyBatisConfig.class)
 @SpringBootApplication(scanBasePackages = "hello.itemservice.web")  // * 해당 Package만 Component Scan / 나머지는 수동 등록해야함
 @Slf4j
 public class ItemServiceApplication {
