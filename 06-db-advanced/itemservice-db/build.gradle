@@ -24,14 +24,16 @@ dependencies {
 
 
 
-	// JDBC Template 추가
-	implementation('org.springframework.boot:spring-boot-starter-jdbc')
+	// JDBC Template 추가 =======>  WHY ? JPA 내에 포함되어있으므로, 주석
+//	implementation('org.springframework.boot:spring-boot-starter-jdbc')
 	// H2 DB 추가
 	runtimeOnly('com.h2database:h2')
 
 	// MyBatis 추가 (cf. spring 미관리 대상 Library 는 버전정보 명시)
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
 
+	// JPA 추가
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
