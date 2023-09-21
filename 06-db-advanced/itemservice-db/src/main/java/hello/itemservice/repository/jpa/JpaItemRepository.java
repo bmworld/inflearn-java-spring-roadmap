@@ -6,19 +6,19 @@ import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
+import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.util.StringUtils.hasText;
 
+
 /**
- * 참조
+ * <h1>JPA참조</h1>
  * <pre>
  *   * @Transactional: JPA 모든 데이터 변경은 Transaction 내에서 이뤄져야함.
  *     - 조회는 Transaction 없이도 가능
@@ -27,10 +27,21 @@ import static org.springframework.util.StringUtils.hasText;
  *       -> 일반적으로는 Business Layer가 존재하는 Service Layer 에서 Transaction을 걸어준다.
  *   * SpringBoot는, JPA 설정에 필요한 EntityManagerFactory, JpaTransactionManager, DataSource 등을 모두 자동화한다.
  * </pre>
+ *
+ * <h1>@Repository 역할</h1>
+ * <pre>
+ *   - Component Scan 대상이 된다.
+ *   - Exception 변환 AOP의 적용대상이 된다.
+ *    -> Spring & JPA 함꼐 사용 시, Spring은 JPA 예외 변환기 (PersistenceExceptionTranslator)를 등록한다.
+ *    -> 예외 변환 AOP Proxy는 JPA 관련 Exception 발생 시, JPA 예외 변환기를 통해 발생한 Exception을 Spring Data Access Exception으로 변환한다.
+ * </pre>
+ *
+ * @see EntityManagerFactoryUtils#convertJpaAccessExceptionIfPossible
  */
-@Repository
+
 @Slf4j
-@Transactional
+//@Transactional
+//@Repository
 @RequiredArgsConstructor
 public class JpaItemRepository implements ItemRepository {
 
@@ -59,7 +70,7 @@ public class JpaItemRepository implements ItemRepository {
 
   @Override
   public List<Item> findAll(ItemSearchCond cond) {
-    String jpql = "SELECT i from Item i ";
+    String jpql = "SELECTss i from Item i ";
 
     Integer maxPrice = cond.getMaxPrice();
     String itemName = cond.getItemName();

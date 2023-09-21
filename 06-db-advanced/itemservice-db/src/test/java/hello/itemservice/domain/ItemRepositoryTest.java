@@ -4,6 +4,7 @@ import hello.itemservice.repository.ItemRepository;
 import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import hello.itemservice.repository.memory.MemoryItemRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * </pre>
  */
 
+@Slf4j
 @Transactional // Spring: TEST transaction 안에서 실행 & 테스트 종료 시 Transaction 자동 rollback
 @SpringBootTest // => 상위 패키지를 탐색하여 `@SpringBootApplication`을 찾는다. => 발견한 Application내의 설정들도 모두 사용한다. (ex. @Import(JdbcTemplateV3Config.class))
 class ItemRepositoryTest {
@@ -101,6 +103,17 @@ class ItemRepositoryTest {
     Item item2 = new Item("itemA-2", 20000, 20);
     Item item3 = new Item("itemB-1", 30000, 30);
 
+    // =================================================================
+    log.info("Repository ={}", itemRepository.getClass());
+    // <AOP 적용 후 >
+    // => Repository = class hello.itemservice.repository.jpa.JpaItemRepository$$EnhancerBySpringCGLIB$$b6920249
+    // JPA -> @Repository 사용 시, AOP에 의해, ItemRepository의 Proxy가 생성되고,
+    // 이 Proxy는 `JPA Excpetion -> Spring Data Access Excpetion` 변환시킨다.
+
+    // <AOP 적용 전 >
+    // => Repository =class hello.itemservice.repository.jpa.JpaItemRepository
+
+    // =================================================================
     itemRepository.save(item1);
     itemRepository.save(item2);
     itemRepository.save(item3);
