@@ -43,7 +43,7 @@ import static org.springframework.util.StringUtils.hasText;
 //@Transactional
 //@Repository
 @RequiredArgsConstructor
-public class JpaItemRepository implements ItemRepository {
+public class JpaItemRepositoryV1 implements ItemRepository {
 
   private final EntityManager em; // Spring 통합 사용 시, Spring에 의해 DI 적용됨!
 

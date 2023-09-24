@@ -1,20 +1,19 @@
 package hello.itemservice.config;
 
 import hello.itemservice.repository.ItemRepository;
-import hello.itemservice.repository.jpa.JpaItemRepositoryV1;
+import hello.itemservice.repository.jpa.JpaItemRepositoryV2;
+import hello.itemservice.repository.jpa.SpringDataJpaItemRepository;
 import hello.itemservice.service.ItemService;
 import hello.itemservice.service.ItemServiceV1;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.persistence.EntityManager;
-
 @RequiredArgsConstructor
 @Configuration
-public class JpaConfig {
+public class SpringDataJpaConfig {
 
-  private final EntityManager em; // 빨간불없다고 에러뜨지만, 정상적으로 주입된다. by KYH 강사님.
+  private final SpringDataJpaItemRepository springDataJpaItemRepository;
 
   @Bean
   ItemService itemService() {
@@ -23,7 +22,7 @@ public class JpaConfig {
 
   @Bean
   ItemRepository itemRepository() {
-    return new JpaItemRepositoryV1(em);
+    return new JpaItemRepositoryV2(springDataJpaItemRepository);
   }
 
 }
