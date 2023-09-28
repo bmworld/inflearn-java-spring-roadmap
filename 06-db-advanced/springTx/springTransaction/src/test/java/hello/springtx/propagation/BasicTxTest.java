@@ -113,7 +113,7 @@ public class BasicTxTest {
 
   @Test
   @DisplayName("CASE: double commit:  `connection Pool` 사용하므로, 2개의 커넥션은 동일한 Con 사용하지만, 반납 후, 새로 사용한 것.")
-  public void twoConnection_commitAndRollback() {
+  public void twoDifferenceConnection_commitAndRollback() {
 
     // connection pool => get connection => proxyConnection 생성 후, 반환
     // ex. HikariProxyConnection@995585763 wrapping conn0
@@ -140,6 +140,83 @@ public class BasicTxTest {
   }
 
 
+  /**
+   * <h1>Outer Tx & Inner Tx 개념 설명</h1>
+   * <pre>
+   *   - 중심개념: 두 Tx는 하나의 물리적 Tx 내에 존재하는 논리적 Tx을 의미한다.
+   *   - Outer: 하나의 물리적 Tx 내에서 '먼저' 실행된 논리적 Tx 을 의미.
+   *     => isNewTransaction = true
+   *   - Inner: 하나의 물리 Tx 내에서 `기존 Tx(Outer)` '이후' 실행된 논리적 Tx 을 의미.
+   *     => isNewTransaction = false
+   *
+   * </pre>
+   * <pre>
+   *   Transaction 참여
+   *   - 의미 : 외부 Tx오 내부 Tx가 하나의 물리 Tx로 묶인다.
+   *   - Inner Tx가 외부 Tx를 그대로 이어 받는다.
+   *   - 다른 관점으로 보면, 외부 Tx 범위가 내부 Tx까지 미친다는 의미.
+   *   - 외부에서 시작된 물리적 Tx 범위가 내부 Tx까지 이어진다.
+   * </pre>
+   */
+  @Test
+  @DisplayName("CASE: inner commit - 동일한 물리적 Connection 내에서 2개의 Connection 사용 => 내부 Tx는 외부 Tx에 항상 참여")
+  public void twoInnerConnection_asInnerConnection() {
+
+    log.info("--- 외부 Tx 시작");
+    TransactionStatus outer = txManager.getTransaction(new DefaultTransactionAttribute());
+    log.info("--- outer.isNewTransaction() ={}", outer.isNewTransaction());
+
+
+
+    // =================================================================================================================
+    // 핵심: 내부 Tx는 외부 Tx에 참여한다.
+    log.info("--- 내부 Tx 시작 =====> 먼저 시작된 Tx(outer)에 내부 Tx(inner)가 참여한다.");
+    // Participating in existing transaction
+    TransactionStatus inner = txManager.getTransaction(new DefaultTransactionAttribute());
+    log.info("--- inner.isNewTransaction() ={}", inner.isNewTransaction()); // false => 내부 Tx 는 신규 Tx가 아.니.다 (외부 tx에 참여.)
+    log.info("---- 내부 Tx Commit (**이때는, 외부 Tx에 참여중이므로, 내부 Tx 의 Commit은 아무 효력이 없다.)");
+    txManager.commit(inner);
+    // =================================================================================================================
+
+
+    log.info("--- 외부 Tx Commit");
+    txManager.commit(outer);
+
+
+
+    // =================================================================
+    // connection pool => get connection => proxyConnection 생성 후, 반환
+    // ex. HikariProxyConnection@1682999176 wrapping conn0
+    log.info("--- Starting tx 2");
+    TransactionStatus tx2 = txManager.getTransaction(new DefaultTransactionAttribute());
+
+    log.info("--- Starting tx 2: Rollback");
+    txManager.rollback(tx2);
+
+
+    log.info("--- Completed Transaction");
+
+  }
+
+
+  /**
+   * <h1>물리 Transaction & 논리 Transaction </h1>
+   * <pre>
+   *   - 물리 Tx: 실제 DB 적용되는 Tx
+   *     (`setAutoCommit(false)` 적용 후, 실제 Connection 을 통하여 Commit or Rollback 하는 단위.
+   *   - 논리 Tx: 하나의 물리 Tx으로 묶인다.
+   *
+   *   - 핵심:  Spring은, 다수의 Tx가 함께 사용될 경우 (하나의 '물리 Tx' 내에 다른 '논리적' TX가 추가된 경우,
+   *     처음 Tx를 시작한 외부 Tx이 실제 물리 Tx를 관리한다.
+   *      -> 내부 tx에서 실행하는 Commit, rollback은 실효성이 없다.
+   *      -> 즉, 외부 tx가 commit 또는 rollback 할 경우, 실제 적용된다.
+   * </pre>
+   * <h1>논리 Transaction 원칙</h1>
+   * <pre>
+   *   1. 모든 논리 Tx Commit 되어야, 물리 Tx Commit 된다.
+   *   2. 하나의 논리 Tx라도 Rollback 될 경우, 물리 Tx는 Rollback 된다.
+   * </pre>
+   */
 
   @TestConfiguration
   static class Config{
