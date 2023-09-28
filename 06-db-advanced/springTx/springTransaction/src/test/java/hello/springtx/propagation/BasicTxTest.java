@@ -24,7 +24,7 @@ public class BasicTxTest {
 
   @Test
   @DisplayName("CASE: commit")
-  public void commit() throws Exception {
+  public void commit() {
 
     log.info("--- Starting Transaction"); // tx 시작 시, connection pool 에서 Connection 가져옴
     TransactionStatus txStatus = txManager.getTransaction(new DefaultTransactionAttribute());
@@ -54,7 +54,7 @@ public class BasicTxTest {
 
   @Test
   @DisplayName("CASE: rollback")
-  public void rollback() throws Exception {
+  public void rollback() {
 
     log.info("--- Starting Transaction"); // tx 시작 시, connection pool 에서 Connection 가져옴
     TransactionStatus txStatus = txManager.getTransaction(new DefaultTransactionAttribute());
@@ -76,6 +76,66 @@ public class BasicTxTest {
      * Releasing JDBC Connection [HikariProxyConnection@1885180239 wrapping conn0: url=jdbc:h2:mem:ac2308ec-223d-4a52-98bd-54d086eb5b30 user=SA] after transaction
      * --- Completed Transaction
      */
+
+  }
+
+
+  @Test
+  @DisplayName("CASE: double commit:  `connection Pool` 사용하므로, 2개의 커넥션은 동일한 Con 사용하지만, 반납 후, 새로 사용한 것.")
+  public void twoConnection_commitEach() {
+
+    // connection pool => get connection => proxyConnection 생성 후, 반환
+    // ex. HikariProxyConnection@995585763 wrapping conn0
+    log.info("--- Starting tx 1");
+    TransactionStatus tx1 = txManager.getTransaction(new DefaultTransactionAttribute());
+
+    log.info("--- Starting tx 1: Commit");
+    txManager.commit(tx1);
+
+
+
+    // =================================================================
+    // connection pool => get connection => proxyConnection 생성 후, 반환
+    // ex. HikariProxyConnection@1682999176 wrapping conn0
+    log.info("--- Starting tx 2");
+    TransactionStatus tx2 = txManager.getTransaction(new DefaultTransactionAttribute());
+
+    log.info("--- Starting tx 2: Commit");
+    txManager.commit(tx2);
+
+
+    log.info("--- Completed Transaction");
+
+  }
+
+
+
+
+  @Test
+  @DisplayName("CASE: double commit:  `connection Pool` 사용하므로, 2개의 커넥션은 동일한 Con 사용하지만, 반납 후, 새로 사용한 것.")
+  public void twoConnection_commitAndRollback() {
+
+    // connection pool => get connection => proxyConnection 생성 후, 반환
+    // ex. HikariProxyConnection@995585763 wrapping conn0
+    log.info("--- Starting tx 1");
+    TransactionStatus tx1 = txManager.getTransaction(new DefaultTransactionAttribute());
+
+    log.info("--- Starting tx 1: Commit");
+    txManager.commit(tx1);
+
+
+
+    // =================================================================
+    // connection pool => get connection => proxyConnection 생성 후, 반환
+    // ex. HikariProxyConnection@1682999176 wrapping conn0
+    log.info("--- Starting tx 2");
+    TransactionStatus tx2 = txManager.getTransaction(new DefaultTransactionAttribute());
+
+    log.info("--- Starting tx 2: Rollback");
+    txManager.rollback(tx2);
+
+
+    log.info("--- Completed Transaction");
 
   }
 
