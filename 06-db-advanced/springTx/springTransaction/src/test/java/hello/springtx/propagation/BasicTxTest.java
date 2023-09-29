@@ -1,6 +1,7 @@
 package hello.springtx.propagation;
 
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
 import javax.sql.DataSource;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @Slf4j
@@ -199,8 +203,8 @@ public class BasicTxTest {
   }
 
   @Test
-  @DisplayName("CASE: outer commit")
-  public void twoConnection_asInnerConnection_rollback() {
+  @DisplayName("CASE: outer Tx Rollback")
+  public void twoConnection_outerTxRollback() {
 
     log.info("--- 외부 Tx 시작");
     TransactionStatus outer = txManager.getTransaction(new DefaultTransactionAttribute());
@@ -221,6 +225,41 @@ public class BasicTxTest {
 
     log.info("--- 외부 Tx Rollback");
     txManager.rollback(outer);
+
+    log.info("--- Completed Transaction");
+
+  }
+
+
+  /**
+   * <h1>논리 Tx 중, 하나라도 Rollback => 물리 Tx는 Rollback 된다.</h1>
+   */
+  @Test
+  @DisplayName("CASE: inner Tx Rollback")
+  public void twoConnection_innerRollback() {
+
+    log.info("--- 외부 Tx 시작");
+    TransactionStatus outer = txManager.getTransaction(new DefaultTransactionAttribute());
+    log.info("--- outer.isNewTransaction() ={}", outer.isNewTransaction());
+
+
+
+    // =================================================================================================================
+    // 핵심: 내부 Tx는 외부 Tx에 참여한다.
+    log.info("--- 내부 Tx 시작 =====> 먼저 시작된 Tx(outer)에 내부 Tx(inner)가 참여한다.");
+    // ********* Participating in existing transaction
+    TransactionStatus inner = txManager.getTransaction(new DefaultTransactionAttribute());
+    log.info("--- inner.isNewTransaction() ={}", inner.isNewTransaction()); // false => 내부 Tx 는 신규 Tx가 아.니.다 (외부 tx에 참여.)
+    log.info("--- 내부 Tx Rollback");
+    txManager.rollback(inner); // ! 이때, rollback-only 표시됨.
+    // =================================================================================================================
+
+
+    log.info("--- 외부 Tx Commit");
+    assertThatThrownBy(() -> txManager.commit(outer))
+      .isInstanceOf(UnexpectedRollbackException.class);
+    //=====> RESULT: 내부 Tx가 rollback인데, 외부 Tx가 commit할 경우, Ex  발생
+    // `org.springframework.transaction.UnexpectedRollbackException: Transaction rolled back because it has been marked as rollback-only`
 
     log.info("--- Completed Transaction");
 
