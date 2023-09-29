@@ -1,7 +1,6 @@
 package hello.springtx.propagation;
 
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
@@ -18,6 +18,25 @@ import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+
+/**
+ * <h1>물리 Transaction & 논리 Transaction </h1>
+ * <pre>
+ *   - 물리 Tx: 실제 DB 적용되는 Tx
+ *     (`setAutoCommit(false)` 적용 후, 실제 Connection 을 통하여 Commit or Rollback 하는 단위.
+ *   - 논리 Tx: 하나의 물리 Tx으로 묶인다.
+ *
+ *   - 핵심:  Spring은, 다수의 Tx가 함께 사용될 경우 (하나의 '물리 Tx' 내에 다른 '논리적' TX가 추가된 경우,
+ *     처음 Tx를 시작한 외부 Tx이 실제 물리 Tx를 관리한다.
+ *      -> 내부 tx에서 실행하는 Commit, rollback은 실효성이 없다.
+ *      -> 즉, 외부 tx가 commit 또는 rollback 할 경우, 실제 적용된다.
+ * </pre>
+ * <h1>논리 Transaction 원칙</h1>
+ * <pre>
+ *   1. 모든 논리 Tx Commit 되어야, 물리 Tx Commit 된다.
+ *   2. 하나의 논리 Tx라도 Rollback 될 경우, 물리 Tx는 Rollback 된다.
+ * </pre>
+ */
 @SpringBootTest
 @Slf4j
 public class BasicTxTest {
@@ -266,24 +285,36 @@ public class BasicTxTest {
   }
 
 
-  /**
-   * <h1>물리 Transaction & 논리 Transaction </h1>
-   * <pre>
-   *   - 물리 Tx: 실제 DB 적용되는 Tx
-   *     (`setAutoCommit(false)` 적용 후, 실제 Connection 을 통하여 Commit or Rollback 하는 단위.
-   *   - 논리 Tx: 하나의 물리 Tx으로 묶인다.
-   *
-   *   - 핵심:  Spring은, 다수의 Tx가 함께 사용될 경우 (하나의 '물리 Tx' 내에 다른 '논리적' TX가 추가된 경우,
-   *     처음 Tx를 시작한 외부 Tx이 실제 물리 Tx를 관리한다.
-   *      -> 내부 tx에서 실행하는 Commit, rollback은 실효성이 없다.
-   *      -> 즉, 외부 tx가 commit 또는 rollback 할 경우, 실제 적용된다.
-   * </pre>
-   * <h1>논리 Transaction 원칙</h1>
-   * <pre>
-   *   1. 모든 논리 Tx Commit 되어야, 물리 Tx Commit 된다.
-   *   2. 하나의 논리 Tx라도 Rollback 될 경우, 물리 Tx는 Rollback 된다.
-   * </pre>
-   */
+  @Test
+  @DisplayName("CASE: inner Tx Rollback & requires new")
+  public void twoConnection_innerRollback_requires_new() {
+
+    log.info("--- 외부 Tx 시작");
+    TransactionStatus outer = txManager.getTransaction(new DefaultTransactionAttribute());
+    log.info("--- outer.isNewTransaction() ={}", outer.isNewTransaction());
+
+
+
+    // =================================================================================================================
+    log.info("--- 내부 Tx 시작 [BUT 외부 TX 무시 => 신규 Connection¡ 획득 (물리 Tx 신규 생성)]");
+    // * Suspending current transaction, creating new transaction with name [...]
+    DefaultTransactionAttribute innerTxDefinition = new DefaultTransactionAttribute();
+    innerTxDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW); // 기본은 PROPAGATION_REQUIRED (기존 Tx (outer tx)에 참여)
+    TransactionStatus inner = txManager.getTransaction(innerTxDefinition);
+
+    log.info("--- inner.isNewTransaction() ={}", inner.isNewTransaction()); // true (새로운 Tx로 독립했으므로)
+    log.info("--- 내부 Tx Rollback");
+    txManager.rollback(inner);
+    // =================================================================================================================
+
+
+    log.info("--- 외부 Tx Commit");
+    txManager.commit(outer);
+
+    log.info("--- Completed Transaction");
+
+  }
+
 
   @TestConfiguration
   static class Config{
