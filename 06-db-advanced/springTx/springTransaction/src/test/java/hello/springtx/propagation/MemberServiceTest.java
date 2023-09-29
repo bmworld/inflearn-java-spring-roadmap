@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -84,6 +86,60 @@ class MemberServiceTest {
     assertTrue(memberRepository.findByUsername(userName).isPresent());
     assertTrue(logRepository.findByMessage(userName).isPresent());
 
+  }
+
+
+
+
+  // =================================================================
+
+  /**
+   * @memberService    @Transactional: ON
+   * @MemberRepository @Transactional: ON
+   * @LogRepository    @Transactional: ON
+   */
+  @Test
+  void outerTxOn_success() {
+    // Given
+    String userName = "outerTx_success" + geUniqueSuffix();
+
+    // When
+    memberService.joinV1(userName);
+
+    // Then: 모든 데이터 정상 저장.
+    assertTrue(memberRepository.findByUsername(userName).isPresent());
+    assertTrue(logRepository.findByMessage(userName).isPresent());
+
+  }
+
+
+
+
+  // =================================================================
+
+  /**
+   * @memberService    @Transactional: ON
+   * @MemberRepository @Transactional: ON
+   * @LogRepository    @Transactional: ON + Exception
+   */
+  @Test
+  void outerTxOn_fail() {
+    // Given
+    String userName = LogMessageExceptionName.runtimeEx + geUniqueSuffix();
+
+    // When
+    Assertions.assertThatThrownBy(()->memberService.joinV1(userName))
+      .isInstanceOf(RuntimeException.class);
+
+
+    // Then: 모든 데이터 정상 저장.
+    assertTrue(memberRepository.findByUsername(userName).isEmpty()); // Con1 => Commit
+    assertTrue(logRepository.findByMessage(userName).isEmpty()); // Con2 =>  Exception 발생하여, Rollback 됨.
+
+  }
+
+  private static LocalDateTime geUniqueSuffix() {
+    return LocalDateTime.now();
   }
 
 }
