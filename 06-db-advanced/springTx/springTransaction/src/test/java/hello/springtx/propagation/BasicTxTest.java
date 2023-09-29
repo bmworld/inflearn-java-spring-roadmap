@@ -160,7 +160,7 @@ public class BasicTxTest {
    */
   @Test
   @DisplayName("CASE: inner commit - 동일한 물리적 Connection 내에서 2개의 Connection 사용 => 내부 Tx는 외부 Tx에 항상 참여")
-  public void twoInnerConnection_asInnerConnection() {
+  public void twoConnection_asInnerConnection_commit() {
 
     log.info("--- 외부 Tx 시작");
     TransactionStatus outer = txManager.getTransaction(new DefaultTransactionAttribute());
@@ -193,6 +193,34 @@ public class BasicTxTest {
     log.info("--- Starting tx 2: Rollback");
     txManager.rollback(tx2);
 
+
+    log.info("--- Completed Transaction");
+
+  }
+
+  @Test
+  @DisplayName("CASE: outer commit")
+  public void twoConnection_asInnerConnection_rollback() {
+
+    log.info("--- 외부 Tx 시작");
+    TransactionStatus outer = txManager.getTransaction(new DefaultTransactionAttribute());
+    log.info("--- outer.isNewTransaction() ={}", outer.isNewTransaction());
+
+
+
+    // =================================================================================================================
+    // 핵심: 내부 Tx는 외부 Tx에 참여한다.
+    log.info("--- 내부 Tx 시작 =====> 먼저 시작된 Tx(outer)에 내부 Tx(inner)가 참여한다.");
+    // ********* Participating in existing transaction
+    TransactionStatus inner = txManager.getTransaction(new DefaultTransactionAttribute());
+    log.info("--- inner.isNewTransaction() ={}", inner.isNewTransaction()); // false => 내부 Tx 는 신규 Tx가 아.니.다 (외부 tx에 참여.)
+    log.info("--- 내부 Tx Commit (*내부 Tx는 외부 Tx에 참여 중이므로, Commit 효력 없음.)");
+    txManager.commit(inner);
+    // =================================================================================================================
+
+
+    log.info("--- 외부 Tx Rollback");
+    txManager.rollback(outer);
 
     log.info("--- Completed Transaction");
 
