@@ -5,6 +5,7 @@ import hello.springtx.propagation.domain.log.LogMessageExceptionName;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -18,6 +19,17 @@ public class LogRepository {
 
   @Transactional
   public void save(Log logMessage) {
+    log.info("Save Log !");
+    em.persist(logMessage);
+    if (logMessage.getMessage().contains(LogMessageExceptionName.runtimeEx)) {
+      log.info("Log 저장 시, Exception 발생 > Rollback !");
+      throw new RuntimeException("--- LogRepository > save (): RuntimeException 발생");
+    }
+
+  }
+
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  public void saveWithREQUIRES_NEW(Log logMessage) {
     log.info("Save Log !");
     em.persist(logMessage);
     if (logMessage.getMessage().contains(LogMessageExceptionName.runtimeEx)) {

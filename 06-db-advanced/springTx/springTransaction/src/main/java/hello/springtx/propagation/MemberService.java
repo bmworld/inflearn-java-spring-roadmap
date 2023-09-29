@@ -5,6 +5,7 @@ import hello.springtx.propagation.domain.log.Log;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -46,6 +47,23 @@ public class MemberService {
   }
 
 
+  @Transactional
+  public void joinWithREQUIRED_NEW_inLogRepo(String username) {
+    Member member = new Member(username);
+    Log logMessage = new Log(username);
+
+    saveMember(member);
+    log.info("=== logRepository 호출 시작 (로그 저장 실패 시, Rollback 미적용)");
+    try {
+      logRepository.saveWithREQUIRES_NEW(logMessage);
+    } catch (Exception e) {
+      log.info("log 저장에 실패했습니다. logMessage={}", logMessage);
+      log.info("정상 흐름 지속함.");
+    }
+    log.info("=== logRepository 호출 종료");
+
+  }
+
   private void saveMember(Member member) {
     log.info("=== memberRepository 호출 시작");
     memberRepository.save(member);
@@ -66,7 +84,7 @@ public class MemberService {
       log.info("log 저장에 실패했습니다. logMessage={}", logMessage);
       log.info("정상 흐름 지속함.");
     }
-
     log.info("=== logRepository 호출 종료");
   }
+
 }

@@ -171,6 +171,34 @@ class MemberServiceTest {
 
   }
 
+
+  // =================================================================
+
+  /**
+   * @memberService    @Transactional: ON
+   * @MemberRepository @Transactional: ON
+   * @LogRepository    @Transactional: ON(`REQUIRES_NEW`) + Exception
+   *
+   * REQUIRED_NEW 옵션을 사용하여, 두 논리 Tx를 두 물리 Tx로 분리한다.
+   * => 따라서, 어느 하나의 Tx 가 Exception 발생하더라도,
+   * 나머지 Tx의 처리는 독립적으로 Rollback 또는 Commit 처리할 수 있다.
+   *
+   */
+  @Test
+  void recoverException_success_byREQUIRED_NEW() {
+    // Given
+    String userName = LogMessageExceptionName.runtimeEx + geUniqueSuffix();
+
+    // When
+    memberService.joinWithREQUIRED_NEW_inLogRepo(userName);
+
+
+    // Then: 모든 데이터 정상 저장.
+    assertTrue(memberRepository.findByUsername(userName).isPresent()); // Con1 => Commit
+    assertTrue(logRepository.findByMessage(userName).isEmpty()); // Con2 =>  Exception 발생하여, Rollback 됨.
+
+  }
+
   private static LocalDateTime geUniqueSuffix() {
     return LocalDateTime.now();
   }
