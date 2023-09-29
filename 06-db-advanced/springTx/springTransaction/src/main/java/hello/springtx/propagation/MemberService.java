@@ -32,8 +32,10 @@ public class MemberService {
   }
 
   /**
+   *
    * <h2>로그 저장 실패 시, Rollback  X</h2>
    */
+  @Transactional
   public void joinV2(String username) {
     Member member = new Member(username);
     Log logMessage = new Log(username);
