@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -64,5 +65,25 @@ class MemberServiceTest {
 
   }
 
+  // =================================================================
+
+  /**
+   * @memberService    @Transactional: ON
+   * @MemberRepository @Transactional: OFF
+   * @LogRepository    @Transactional: OFF
+   */
+  @Test
+  void singleTx_success() {
+    // Given
+    String userName = "outerTxOff_success";
+
+    // When
+    memberService.joinV1(userName);
+
+    // Then: 모든 데이터 정상 저장.
+    assertTrue(memberRepository.findByUsername(userName).isPresent());
+    assertTrue(logRepository.findByMessage(userName).isPresent());
+
+  }
 
 }

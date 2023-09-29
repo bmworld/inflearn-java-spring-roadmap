@@ -5,6 +5,7 @@ import hello.springtx.propagation.domain.log.Log;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -16,8 +17,10 @@ public class MemberService {
 
 
   /**
+   *
    * <h2>로그 저장 실패 시, Rollback</h2>
    */
+  @Transactional
   public void joinV1(String username) {
 
     Member member = new Member(username);

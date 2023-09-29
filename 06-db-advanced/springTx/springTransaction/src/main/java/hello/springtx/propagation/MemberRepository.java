@@ -16,7 +16,7 @@ import java.util.Optional;
 public class MemberRepository{
   private final EntityManager em;
 
-  @Transactional(propagation = Propagation.REQUIRED) // cf) Propagation.REQUIRED => DEFAULT 값.
+//  @Transactional(propagation = Propagation.REQUIRED) // cf) Propagation.REQUIRED => DEFAULT 값.
   public void save(Member member) {
     log.info("Save Member");
     em.persist(member);
