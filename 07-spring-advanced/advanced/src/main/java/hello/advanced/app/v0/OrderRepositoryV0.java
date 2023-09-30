@@ -1,6 +1,6 @@
 package hello.advanced.app.v0;
 
-import hello.advanced.app.v0.domain.itemIdConst;
+import hello.advanced.app.domain.itemIdConst;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package hello.advanced.app.v0.domain;
+package hello.advanced.app.domain;
 
 public interface itemIdConst {
 
