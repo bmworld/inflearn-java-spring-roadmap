@@ -9,7 +9,6 @@ import java.util.UUID;
 @Getter
 public class TraceId {
   private String id;
-
   private int level;
 
   public TraceId() {
@@ -26,11 +25,11 @@ public class TraceId {
     return UUID.randomUUID().toString().substring(0, 8); // 앞 8 자리만 사용
   }
 
-  private TraceId createNextId() {
-    return new TraceId(id, this.level + 1);
+  public TraceId createNextId() {
+    return new TraceId(id, level + 1);
   }
 
-  private TraceId createPrevId() {
+  public TraceId createPrevId() {
     return new TraceId(id, this.level - 1);
   }
 
