@@ -1,5 +1,6 @@
 package hello.advanced.trace.template;
 
+import hello.advanced.trace.template.code.AbstractTemplate;
 import hello.advanced.trace.template.code.SubclassLogic1;
 import hello.advanced.trace.template.code.SubclassLogic2;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,33 @@ public class TemplateMethodPatternTest {
     SubclassLogic2 template2 = new SubclassLogic2();
     template2.execute();
 
+
+  }
+  @Test
+  @DisplayName("templateMethodV2 - anonymous inner class (익명 내부 클래스)")
+  public void templateMethodV2() {
+    AbstractTemplate template1 = new AbstractTemplate(){
+
+      @Override
+      protected void call() {
+        log.info("BIZ LOGIC 실행");
+      }
+    };
+
+    log.info("익명 내부 클래스 이름 = {}", template1.getClass()); // TemplateMethodPatternTest$1
+    template1.execute();
+
+
+    AbstractTemplate template2 = new AbstractTemplate(){
+
+      @Override
+      protected void call() {
+        log.info("BIZ LOGIC 2 실행");
+      }
+    };
+
+    log.info("익명 내부 클래스 이름 = {}", template2.getClass()); // TemplateMethodPatternTest$2
+    template2.execute();
 
   }
 
