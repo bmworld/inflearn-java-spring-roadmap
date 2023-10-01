@@ -1,6 +1,6 @@
 package hello.advanced.trace.threadLocal;
 
-import hello.advanced.trace.threadLocal.code.FieldService;
+import hello.advanced.trace.threadLocal.code.ThreadLocalService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,19 +8,19 @@ import org.junit.jupiter.api.Test;
 import static hello.util.customUtils.sleep;
 
 @Slf4j
-public class FieldServiceTest {
-  private FieldService fieldService = new FieldService();
+public class ThreadLocalServiceTest {
+  private ThreadLocalService service = new ThreadLocalService();
 
   @Test
-  @DisplayName("동시성 이슈 없는 Ver. (각 쓰레드가 중복되지 않음)")
+  @DisplayName("Thread 동시성 X Ver. (Thread Local 사용으로 동시성 문제 해결)")
   public void threadLocalWithoutConcurrencyIssue() {
     log.info("Main Start");
     Runnable userA = ()-> {
-      fieldService.logic("userA");
+      service.logic("userA");
     };
 
     Runnable userB = ()-> {
-      fieldService.logic("userB");
+      service.logic("userB");
     };
 
 
@@ -43,15 +43,15 @@ public class FieldServiceTest {
 
 
   @Test
-  @DisplayName("동시성 이슈 Ver. (Thread가 2개 이상 동시에 작동할 경우)")
+  @DisplayName("Thread 동시성 Ver. (Thread Local 사용으로 동시성 문제 해결 - 해당 Thread에서 저장한 값만 조회됨) ")
   public void threadLocalWithConcurrencyIssue() {
     log.info("Main Start");
     Runnable userA = ()-> {
-      fieldService.logic("userA");
+      service.logic("userA");
     };
 
     Runnable userB = ()-> {
-      fieldService.logic("userB");
+      service.logic("userB");
     };
 
 
@@ -63,21 +63,22 @@ public class FieldServiceTest {
 
 
     threadA.start();
-    sleep(800);
+    sleep(100);
     // 동시성 문제가 발생하지 안혿록 하마.
     threadB.start();
 
 
 
-
-    sleep(3000); // 메인 쓰레드 조욜 대기
+    sleep(3000); // 메인 쓰레드 종료 대기
 
     log.info("Main Exit");
 
     /**
      * [main] Main Start
-     * [thread-A] FieldService - 저장 name =userA -> storedName =null
-     * [thread-B] FieldService - 저장 name =userB -> storedName =userA
+     * [thread-A] ThreadLocalService - 저장 name =userA -> storedName =null
+     * [thread-B] ThreadLocalService - 저장 name =userB -> storedName =null
+     * [thread-A] ThreadLocalService - 조회 storedName =userA
+     * [thread-B] ThreadLocalService - 조회 storedName =userB
      * [main] Main Exit
      */
   }
