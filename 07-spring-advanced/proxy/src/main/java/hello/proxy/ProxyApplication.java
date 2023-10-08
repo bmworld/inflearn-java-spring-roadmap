@@ -7,6 +7,7 @@ import hello.proxy.config.v2_dynamicProxy.DynamicProxyFilterConfig;
 import hello.proxy.config.v3_proxyFactory.ProxyFactoryConfigV1;
 import hello.proxy.config.v3_proxyFactory.ProxyFactoryConfigV2;
 import hello.proxy.config.v4_porstProcessor.BeanPostProcessorConfig;
+import hello.proxy.config.v5_autoProxy.AutoProxyConfig;
 import hello.proxy.trace.logtrace.LogTrace;
 import hello.proxy.trace.logtrace.ThreadLocalLogTrace;
 import org.springframework.boot.SpringApplication;
@@ -23,7 +24,8 @@ import org.springframework.context.annotation.Import;
 //@Import(DynamicProxyFilterConfig.class)
 //@Import(ProxyFactoryConfigV1.class)
 //@Import(ProxyFactoryConfigV2.class)
-@Import(BeanPostProcessorConfig.class)
+//@Import(BeanPostProcessorConfig.class)
+@Import(AutoProxyConfig.class)
 @SpringBootApplication(scanBasePackages = "hello.proxy.app") //주의
 public class ProxyApplication {
 	public static void main(String[] args) {

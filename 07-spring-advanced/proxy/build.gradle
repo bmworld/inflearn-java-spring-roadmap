@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-aop' // 자동 Proxy 생성기 (`aspectj weaver`라는 aspectJ 관련 라이브러리 등록 -> Springboot가 AOP 관련 Class를 자동으로 Spring Bean 에 등록한다.)
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
