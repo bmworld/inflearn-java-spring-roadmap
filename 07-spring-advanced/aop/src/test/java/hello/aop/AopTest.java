@@ -5,6 +5,7 @@ import hello.aop.order.OrderRepository;
 import hello.aop.order.OrderService;
 import hello.aop.order.aop.AspectV4Pointcut;
 import hello.aop.order.aop.AspectV5SetAspectOrder;
+import hello.aop.order.aop.AspectV6Advice;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,8 @@ import org.springframework.context.annotation.Import;
 //@Import(AspectV2.class)
 //@Import(AspectV3.class)
 //@Import(AspectV4Pointcut.class)
-@Import({AspectV5SetAspectOrder.LogAspect.class, AspectV5SetAspectOrder.TxAspect.class})
+//@Import({AspectV5SetAspectOrder.LogAspect.class, AspectV5SetAspectOrder.TxAspect.class})
+@Import(AspectV6Advice.class)
 public class AopTest {
   @Autowired
   private OrderService orderService;
@@ -43,7 +45,7 @@ public class AopTest {
   }
 
 
-  @DisplayName("Aop 적용여부 확인 Exception")
+  @DisplayName("Aop 적용여부 확인: Exception")
   @Test
   void exceptionCASE () {
     Assertions.assertThatThrownBy(() -> orderService.orderItem(OrderConst.exceptionItemName))
