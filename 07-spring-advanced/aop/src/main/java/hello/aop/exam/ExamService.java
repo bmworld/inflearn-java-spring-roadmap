@@ -13,4 +13,11 @@ public class ExamService {
   public void request(String itemId) {
     examRepository.save(itemId);
   }
+
+
+  @Trace
+  public void requestWithRetry(String itemId) {
+    examRepository.saveWithRetry(itemId);
+  }
+
 }
