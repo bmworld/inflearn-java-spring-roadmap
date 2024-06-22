@@ -1,6 +1,6 @@
 plugins {
-    id 'java'
-    id 'war'
+  id 'java'
+  id 'war'
 }
 
 group = 'hello'
@@ -8,14 +8,14 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    //서블릿
-    implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+  //서블릿
+  implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+  useJUnitPlatform()
 }
