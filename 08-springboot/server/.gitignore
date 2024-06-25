@@ -1,3 +1,11 @@
+### TOMCAT ###
+
+tomcat/logs/
+
+
+
+
+################################
 HELP.md
 .gradle
 build/

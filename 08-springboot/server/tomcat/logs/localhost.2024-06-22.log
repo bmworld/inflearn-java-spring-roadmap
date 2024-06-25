@@ -1,3 +1,0 @@
-22-Jun-2024 21:30:34.856 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: contextInitialized()
-22-Jun-2024 21:30:34.856 INFO [main] org.apache.catalina.core.ApplicationContext.log SessionListener: contextInitialized()
-22-Jun-2024 21:30:34.857 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: attributeAdded('StockTicker', 'async.Stockticker@7bfc3126')
