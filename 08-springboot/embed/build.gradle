@@ -36,6 +36,11 @@ task buildFatJar(type: Jar) {
     attributes 'Main-Class': 'hello.embed.EmbedTomcatSpringMain'
   }
   duplicatesStrategy = DuplicatesStrategy.WARN
+
+  // 일반 JAR 에는 lib 파일이 없음
+  // 그 해결책으로서 사용함
+  // 아래 코드를 통해, lib 파일을 모두 순환해서, jar 파일내에 class 파일로 넣어버림.
+  // 그래서 뚱뚱한 jar 가 되는거다.
   from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
   with jar
 }
