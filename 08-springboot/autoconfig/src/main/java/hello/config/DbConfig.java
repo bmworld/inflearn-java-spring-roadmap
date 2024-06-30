@@ -9,8 +9,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.JdbcTransactionManager;
 import org.springframework.transaction.TransactionManager;
 
+
+/**
+ * 사실 아래 Bean 들은 모두... SpringBoot 이 자동으로 Bean 등록해주는 대상이다.
+ * 따라서, Configuration 등록하지 않아도 ,된다.
+ */
 @Slf4j
-@Configuration
+//@Configuration
 public class DbConfig {
 
   /** DB 지정 및 계정 설정 */
