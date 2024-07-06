@@ -19,6 +19,10 @@ repositories {
 }
 
 dependencies {
+    // ===== 본인이 만든 Lib 연동시킴
+    // ㄴ 정상연동되면, IDE 에서, 해당 내부 파일의 Directory, File 볼 수 있게됨.
+    implementation files("libs/memory-v1.jar")
+    // =================================
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
