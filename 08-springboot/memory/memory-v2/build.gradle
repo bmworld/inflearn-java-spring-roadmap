@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    /**
+     * @See id 'org.springframework.boot' version '3.0.2'
+     * -> 순수 java library 만들기 위해, springboot plugin 미사용
+     * -> 아래 dependencies 는 버전을 정확하게 명시해줘야함(이유: springboot plugin 미사용)
+     */
+}
+
+group = 'memory'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.0.2'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.0.2'
+}
+
+test {
+    useJUnitPlatform()
+}
