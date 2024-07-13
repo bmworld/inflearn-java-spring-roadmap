@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  *
  *
- * <h1>JAVA System 속성값 사용하기</h1>
+ * <h1>Commandline 인수 사용하기</h1>
  *
  * <pre>
  *   1) IDE
