@@ -1,7 +1,6 @@
 package hello;
 
 import jakarta.annotation.PostConstruct;
-import java.util.List;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -28,13 +27,14 @@ public class CommandLineBean {
 
   @PostConstruct
   public void init() {
-    System.out.println("CommandLineBean.init");
+    //    System.out.println("CommandLineBean.init");
 
-    log.info("Source = {}", List.of(arguments.getSourceArgs()));
+    //    log.info("Source = {}", List.of(arguments.getSourceArgs()));
     Set<String> optionNames = arguments.getOptionNames();
-    log.info("OptionNames = {}", optionNames);
+    //    log.info("OptionNames = {}", optionNames);
     for (String optionName : optionNames) {
-      log.info("--- optionName={} value={}", optionName, arguments.getOptionValues(optionName));
+      //      log.info("--- optionName={} value={}", optionName,
+      // arguments.getOptionValues(optionName));
     }
   }
 }
