@@ -1,0 +1,5 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" ### "*": 엑츄에이터 모든 Endpoint(기능) 활성화

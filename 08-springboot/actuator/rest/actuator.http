@@ -1,0 +1,11 @@
+### GET request actuator value to server
+GET http://localhost:8080/actuator
+
+
+### GET HEALTH => 서버가 살아있는지 (e.g. status: "UP" => 잘 작동중임)
+GET http://localhost:8080/actuator/health
+
+
+
+### Thread 정보
+GET http://localhost:8080/actuator/threaddump
