@@ -1,12 +1,27 @@
 management:
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+    env:
+      enabled: true
+    git:
+      mode: "full" # git 정보를 더 자세하게 보여줌
   endpoints:
     web:
       exposure:
         include: "*" ### "*": 엑츄에이터 모든 Endpoint(기능) 활성화
-        exclude: "env"
+        exclude: ""
   endpoint:
     shutdown:
       enabled: true # shutdown = 서버 내려감 (기본비활성화이므로, 꼭 필요한 경우 활성하기)
     health:
       #      show-details: always
       show-components: always # Health Component 상태정보만 간략하게 노출
+
+
+info:
+  app:
+    name: hello-actuator
+    company: bm # {origin}/actuator/info 실행 시, 해당 info 하위 env 값이 나타남
