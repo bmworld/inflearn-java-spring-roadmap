@@ -1,11 +1,48 @@
+# Official Docs ( 전체 endpoint 정보 )
+### @See https://docs.spring.io/spring-boot/reference/actuator/endpoints.html#actuator.endpoints
+
 ### GET request actuator value to server
 GET http://localhost:8080/actuator
 
 
-### GET HEALTH => 서버가 살아있는지 (e.g. status: "UP" => 잘 작동중임)
+### Spring container 에 등록된 Spring Beans 을 보여준다.
+GET http://localhost:8080/actuator/beans
+
+
+### `condition`을 통해서 빈을 등록할 때 평가 조건과 일치하거나 일치하지 않는 이유를 표시한다.
+GET http://localhost:8080/actuator/conditions
+
+
+### `@ConfigurationProperties`를 보여준다.
+GET http://localhost:8080/actuator/configprops
+
+
+### `Environment 정보를 보여준다.
+GET http://localhost:8080/actuator/env
+
+
+### App Health 정보를 보여준다.  (e.g. status: "UP" => 잘 작동중임)
 GET http://localhost:8080/actuator/health
 
 
+### HTTP 호출 응답 정보를 보여준다. (`HttpExchangeepository` 를 구현한 Bean 별도 등록 필요.
+GET http://localhost:8080/actuator/httpexchanges
 
-### Thread 정보
+
+### APP 정보 보여줌
+GET http://localhost:8080/actuator/info
+
+
+### App Logger 설정확인 및 수정 가능
+GET http://localhost:8080/actuator/loggers
+
+
+### APP metric 정보 확인
+GET http://localhost:8080/actuator/metrics
+
+### `@RequestMapping` 정보 확인
+GET http://localhost:8080/actuator/mappings
+
+
+### Thread dump 실행해서 보여줌
 GET http://localhost:8080/actuator/threaddump
