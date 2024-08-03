@@ -1,0 +1,18 @@
+
+### sample API
+GET http://localhost:8080/log
+
+
+
+### 실시간으로 WAS log level 변경하기!
+POST http://localhost:8080/actuator/loggers/hello.controller
+content-type: application/json;
+
+{
+  "configuredLevel": "TRACE"
+}
+
+
+
+### 특정 Controller log level 확인 (*배포환경에서 유용)
+GET http://localhost:8080/actuator/loggers/hello.controller
