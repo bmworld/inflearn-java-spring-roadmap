@@ -1,5 +1,5 @@
 ### Shutdown server by actuator
-POST http://localhost:8080/actuator/shutdown
+POST {{origin}}/actuator/shutdown
 
 
 # 실행 결과

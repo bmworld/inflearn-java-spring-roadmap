@@ -8,11 +8,14 @@ management:
       enabled: true
     git:
       mode: "full" # git 정보를 더 자세하게 보여줌
+  server:
+    port: 9292 # actuator 사용 시,보안 추가하기 (포트 변경 + 인증된 사용자만 접근가능하도록 함 / 제일 좋은 건, 내부망에서만 사용하는 것)
   endpoints:
     web:
       exposure:
         include: "*" ### "*": 엑츄에이터 모든 Endpoint(기능) 활성화
         exclude: ""
+  #      base-path: "/manage" # actuator 기본 경로 변경하기
   endpoint:
     shutdown:
       enabled: true # shutdown = 서버 내려감 (기본비활성화이므로, 꼭 필요한 경우 활성하기)

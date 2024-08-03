@@ -1,6 +1,6 @@
 
 ### APP metric 정보 확인
-GET http://localhost:8080/actuator/metrics
+GET {{origin}}/actuator/metrics
 
 #{
 #  "names": [
@@ -71,7 +71,7 @@ GET http://localhost:8080/actuator/metrics
 #}
 
 ### APP metric 정보 확인 > 세부내역 > cpu 사용량
-GET http://localhost:8080/actuator/metrics/system.cpu.usage
+GET {{origin}}/actuator/metrics/system.cpu.usage
 
 ### APP metric 정보 확인 > 세부내역 > cpu 개
-GET http://localhost:8080/actuator/metrics/system.cpu.count
+GET {{origin}}/actuator/metrics/system.cpu.count
