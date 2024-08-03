@@ -7,3 +7,6 @@ management:
   endpoint:
     shutdown:
       enabled: true # shutdown = 서버 내려감 (기본비활성화이므로, 꼭 필요한 경우 활성하기)
+    health:
+      #      show-details: always
+      show-components: always # Health Component 상태정보만 간략하게 노출
