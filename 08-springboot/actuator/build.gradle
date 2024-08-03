@@ -1,7 +1,9 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.0.2'
-    id 'io.spring.dependency-management' version '1.1.0'
+  id 'java'
+  id 'org.springframework.boot' version '3.0.2'
+  id 'io.spring.dependency-management' version '1.1.0'
+  id 'com.gorylenko.gradle-git-properties' version '2.4.1' // git info
+  // ㄴ 빌드 시, 파일 자동생성됨 `build/resources/main/META-INF/git.properties`
 }
 
 group = 'hello'
@@ -9,30 +11,44 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator' //actuator 추가
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.boot:spring-boot-starter-actuator' //actuator 추가
 
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  compileOnly 'org.projectlombok:lombok'
+  runtimeOnly 'com.h2database:h2'
+  annotationProcessor 'org.projectlombok:lombok'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    //test lombok 사용
-    testCompileOnly 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
+  //test lombok 사용
+  testCompileOnly 'org.projectlombok:lombok'
+  testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+  useJUnitPlatform()
+}
+
+
+springBoot {
+  buildInfo() // `/actuator/info` 사용 시, 빌드정보 보여줌
+  // -> springboot 재실행하고, 아래 경로에 해당 파일 생성되고, 그 정보가 나타나는거임
+  /** // `build/resources/main/META-INF/build-info.properties`
+   build.artifact=actuator
+   build.group=hello
+   build.name=actuator
+   build.time=2024-08-03T14\:22\:44.242153Z
+   build.version=0.0.1-SNAPSHOT
+
+   */
 }

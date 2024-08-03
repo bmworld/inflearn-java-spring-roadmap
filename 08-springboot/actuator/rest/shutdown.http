@@ -1,0 +1,6 @@
+### Shutdown server by actuator
+POST {{origin}}/actuator/shutdown
+
+
+# 실행 결과
+# {"message": "Shutting down, bye..."}
