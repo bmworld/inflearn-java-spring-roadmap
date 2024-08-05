@@ -84,6 +84,28 @@ GET {{origin}}/actuator/metrics/jvm.memory.used?tag:heap
 ### Metrics > http request 확인 (*WAS에 대한 Request 없으면 404)
 GET {{origin}}/actuator/metrics/http.server.requests
 
+###
+GET {{origin}}/actuator/metrics/http.server.max
 
-### Metrics > http request 확인 (특정 uri / 상태코드 / ...)
+
+### Metrics > http request 확인 1 (특정 uri / 상태코드 / ...)
 GET {{origin}}/actuator/metrics/http.server.requests?tag=uri:/log&tag=status:200
+
+### Metrics > http request 확인 2 (특정 uri / 상태코드 / ...)
+GET {{origin}}/actuator/metrics/http.server.requests?tag=method:POST
+
+
+### Metrics > App 시작 소요시간 (`ApplicationReadyEvent` 로 측정함)
+GET {{origin}}/actuator/metrics/application.started.time
+
+
+### Metrics > App 이 Http 요청처리 준비까지 소요된 시간 (`ApplicationReadyEvent` 로 측정함)
+GET {{origin}}/actuator/metrics/application.ready.time
+
+
+### Metrics > JDDB > 활성중인 Connection 수
+GET {{origin}}/actuator/metrics/jdbc.connections.active
+
+
+### Metrics > JDDB > 최대 Connection Count
+GET {{origin}}/actuator/metrics/jdbc.connections.max

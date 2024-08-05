@@ -1,0 +1,38 @@
+
+### APP metric 정보 확인
+GET {{origin}}/actuator/metrics
+
+#{
+#  "names": [
+#    // ...
+#    "tomcat.cache.access",
+#    "tomcat.cache.hit",
+#    "tomcat.connections.config.max",
+#    "tomcat.connections.current",
+#    "tomcat.connections.keepalive.current",
+#    "tomcat.global.error",
+#    "tomcat.global.received",
+#    "tomcat.global.request",
+#    "tomcat.global.request.max",
+#    "tomcat.global.sent",
+#    "tomcat.servlet.error",
+#    "tomcat.servlet.request",
+#    "tomcat.servlet.request.max",
+#    "tomcat.sessions.active.current",
+#    "tomcat.sessions.active.max",
+#    "tomcat.sessions.alive.max",
+#    "tomcat.sessions.created",
+#    "tomcat.sessions.expired",
+#    "tomcat.sessions.rejected",
+#    "tomcat.threads.busy",  // <-------- * 유용 *
+#    "tomcat.threads.config.max", // <-------- * 유용 *
+#    "tomcat.threads.current"
+#  ]
+#}
+
+### Metrics > tomcat > config.max : 최대 처리가능한 요청수
+GET {{origin}}/actuator/metrics/tomcat.threads.config.max
+
+
+### Metrics > tomcat > config.busy : 실제 바쁘게 동작하는 Thread
+GET {{origin}}/actuator/metrics/tomcat.threads.busy
