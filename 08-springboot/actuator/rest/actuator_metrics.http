@@ -75,3 +75,15 @@ GET {{origin}}/actuator/metrics/system.cpu.usage
 
 ### APP metric 정보 확인 > 세부내역 > cpu 개
 GET {{origin}}/actuator/metrics/system.cpu.count
+
+
+### Metrics > heap memory 확인하기
+GET {{origin}}/actuator/metrics/jvm.memory.used?tag:heap
+
+
+### Metrics > http request 확인 (*WAS에 대한 Request 없으면 404)
+GET {{origin}}/actuator/metrics/http.server.requests
+
+
+### Metrics > http request 확인 (특정 uri / 상태코드 / ...)
+GET {{origin}}/actuator/metrics/http.server.requests?tag=uri:/log&tag=status:200
