@@ -33,4 +33,4 @@ scrape_configs:
     metrics_path: '/actuator/prometheus' # 수집 경로
     scrape_interval: 1s # 수집 주기 (수집주기가 짧을 경우, WAS 성능에 느려질 수 있음)
     static_configs:
-      - targets: [ "localhost:9292" ] # 수집대상 서버 > metrics 의 IP, PORT (* application.yml -> management.server.port)
+      - targets: [ "localhost:9292", "localhost:8080" ] # 수집대상 서버 > metrics 의 IP, PORT (* application.yml -> management.server.port)
