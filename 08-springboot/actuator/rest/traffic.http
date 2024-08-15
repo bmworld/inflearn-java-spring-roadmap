@@ -1,0 +1,16 @@
+
+### Traffic TEST - CPU
+GET {{origin}}/cpu
+
+
+
+### JVM
+GET {{origin}}/jvm
+
+
+### DB conn
+GET {{origin}}/jdbc
+
+
+### log
+GET {{origin}}/error-log
