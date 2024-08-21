@@ -1,0 +1,8 @@
+### ORDER
+POST {{origin}}/order
+
+### CANCEL Order
+POST {{origin}}/cancel
+
+### Get STOCK
+GET {{origin}}/stock
