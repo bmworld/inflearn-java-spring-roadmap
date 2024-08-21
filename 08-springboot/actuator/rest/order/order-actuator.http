@@ -1,8 +1,5 @@
 # Metric 은 최소 1번이상 호출되어야 함 / 그렇지 않을 경우 bad request 발생
 
-### metric 등록
-POST {{origin}}/actuator/metrics/my.order
-
 ### 등록한 metric 확인
 GET {{origin}}/actuator/metrics/my.order
 
