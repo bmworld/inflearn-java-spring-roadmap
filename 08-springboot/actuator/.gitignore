@@ -1,3 +1,16 @@
+### GRAFANA (+ 대용량파일 제외 - github 단일파일 최대 허용용량 100MB)
+grafana/bin
+grafana/conf
+grafana/data
+grafana/docs
+grafana/npm-artifacts
+grafana/packaging
+grafana/plugins-bundled
+grafana/public
+grafana/storybook
+grafana/tools
+
+
 ### PROMETHEUS (+ 대용량파일 제외 - github 단일파일 최대 허용용량 100MB)
 prometheus/data/
 prometheus/prometheus
