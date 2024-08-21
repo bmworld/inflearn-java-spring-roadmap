@@ -9,7 +9,7 @@ management:
     git:
       mode: "full" # git 정보를 더 자세하게 보여줌
   server:
-    port: 9292 # actuator 사용 시,보안 추가하기 (포트 변경 + 인증된 사용자만 접근가능하도록 함 / 제일 좋은 건, 내부망에서만 사용하는 것)
+    port: 8080 # actuator 사용 시,보안 추가하기 (포트 변경 + 인증된 사용자만 접근가능하도록 함 / 제일 좋은 건, 내부망에서만 사용하는 것)
   endpoints:
     web:
       exposure:
@@ -33,3 +33,9 @@ info:
 logging:
   level:
     hello.controller: debug
+
+
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true # actuator > Metric > tomcat 정보 활성화를 위해 사용

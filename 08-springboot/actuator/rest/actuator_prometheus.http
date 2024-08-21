@@ -1,0 +1,18 @@
+
+### APP metric 정보 확인
+# micrometer 설치 => implementation 'io.micrometer:micrometer-registry-prometheus' // prometheus 추가
+
+GET {{origin}}/actuator/prometheus
+
+
+### prometheus 에선 `.` 대신 `_` 포멧으로 나타남
+# ====== 아래는 prometheus 에서 어떻게 표현되는지 참고만 하시라 =======
+# /actuator/prometheus -> jvm_info 항목 검색하시라.
+GET {{origin}}/actuator/metrics/jvm.info
+
+
+###
+GET {{origin}}/actuator/metrics/logback.events
+
+###
+GET {{origin}}/actuator/metrics/http.server.requests
